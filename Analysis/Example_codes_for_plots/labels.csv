@@ -1,0 +1,169 @@
+term,label,group,ref
+cons_oct_precovid,Oct 2017,Consultations,
+cons_nov_precovid,Nov 2017,Consultations,
+cons_dec_precovid,Dec 2017,Consultations,
+cons_jan_precovid,Jan 2018,Consultations,
+cons_feb_precovid,Feb 2018,Consultations,
+cons_mar_precovid,Mar 2018,Consultations,
+cons_apr_precovid,Apr 2018,Consultations,
+cons_may_precovid,May 2018,Consultations,
+cons_jun_precovid,Jun 2018,Consultations,
+cons_jul_precovid,Jul 2018,Consultations,
+cons_aug_precovid,Aug 2018,Consultations,
+cons_sep_precovid,Sep 2018,Consultations,
+cons_oct_postcovid1,Oct 2021,Consultations,
+cons_nov_postcovid1,Nov 2021,Consultations,
+cons_dec_postcovid1,Dec 2021,Consultations,
+cons_jan_postcovid1,Jan 2022,Consultations,
+cons_feb_postcovid1,Feb 2022,Consultations,
+cons_mar_postcovid1,Mar 2022,Consultations,
+cons_apr_postcovid1,Apr 2022,Consultations,
+cons_may_postcovid1,May 2022,Consultations,
+cons_jun_postcovid1,Jun 2022,Consultations,
+cons_jul_postcovid1,Jul 2022,Consultations,
+cons_aug_postcovid1,Aug 2022,Consultations,
+cons_sep_postcovid1,Sep 2022,Consultations,
+cons_oct_postcovid2,Oct 2022,Consultations,
+cons_nov_postcovid2,Nov 2022,Consultations,
+cons_dec_postcovid2,Dec 2022,Consultations,
+cons_jan_postcovid2,Jan 2023,Consultations,
+cons_feb_postcovid2,Feb 2023,Consultations,
+cons_mar_postcovid2,Mar 2023,Consultations,
+cons_apr_postcovid2,Apr 2023,Consultations,
+cons_may_postcovid2,May 2023,Consultations,
+cons_jun_postcovid2,Jun 2023,Consultations,
+cons_jul_postcovid2,Jul 2023,Consultations,
+cons_aug_postcovid2,Aug 2023,Consultations,
+cons_sep_postcovid2,Sep 2023,Consultations,
+cons_oct_postcovid3,Oct 2023,Consultations,
+cons_nov_postcovid3,Nov 2023,Consultations,
+cons_dec_postcovid3,Dec 2023,Consultations,
+cons_jan_postcovid3,Jan 2024,Consultations,
+cons_feb_postcovid3,Feb 2024,Consultations,
+cons_mar_postcovid3,Mar 2024,Consultations,
+cons_apr_postcovid3,Apr 2024,Consultations,
+cons_may_postcovid3,May 2024,Consultations,
+cons_jun_postcovid3,Jun 2024,Consultations,
+cons_jul_postcovid3,Jul 2024,Consultations,
+cons_aug_postcovid3,Aug 2024,Consultations,
+cons_sep_postcovid3,Sep 2024,Consultations,
+cons_mean,Monthly consultation (mean),Monthly consultation,
+cons_oct,October,Monthly consultation,1
+cons_nov,November,Monthly consultation,2
+cons_dec,December,Monthly consultation,3
+cons_jan,January,Monthly consultation,4
+cons_feb,February,Monthly consultation,5
+cons_mar,March,Monthly consultation,6
+cons_apr,April,Monthly consultation,7
+cons_may,May,Monthly consultation,8
+cons_jun,June,Monthly consultation,9
+cons_jul,July,Monthly consultation,10
+cons_aug,August,Monthly consultation,11
+cons_sep,September,Monthly consultation,12
+list_size_mp6,List size,List size,
+list_size,List size,List size,
+obesity_True,Obesity,Obesity,1
+obesity_missing,Missing BMI,Obesity,2
+age_0_4,Under 5 years,Age,1
+age_5_11,5-11 years,Age,2
+age_12_17,12-17 years,Age,3
+age_18_29,18-29 years,Age,4
+age_30_44,30-44 years,Age,5
+age_45_54,45-54 years,Age,6
+age_55_64,55-64 years,Age,7
+age_65_74,65-74 years,Age,8
+age_75_79,75-79 years,Age,9
+age_80,80-110 years,Age,10
+age_missing,Missing age,Age,11
+sex_female,Female,Sex,1
+sex_male,Male,Sex,2
+sex_missing,Missing sex,Sex,3
+ethnicity_white,White,Ethnicity,1
+ethnicity_asian,Asian,Ethnicity,2
+ethnicity_black,Black,Ethnicity,3
+ethnicity_mixed,Mixed,Ethnicity,4
+ethnicity_other,Other,Ethnicity,5
+ethnicity_missing,Missing ethnicity,Ethnicity,6
+imd_1_most,IMD 1 (most deprived),Deprivation,1
+imd_2,IMD 2,Deprivation,2
+imd_3,IMD 3,Deprivation,3
+imd_4,IMD 4,Deprivation,4
+imd_5_least,IMD 5 (least deprived),Deprivation,5
+imd_missing,Missing IMD,Deprivation,6
+rurality_urban_comb,Urban conurbation,Rurality,1
+rurality_urban_town,Urban town,Rurality,2
+rurality_rural_fringe,Rural fringe,Rurality,3
+rurality_rural_village,Rural village,Rurality,4
+rurality_missing,Missing rurality,Rurality,5
+smoking_never,Never smoker,Smoking Status,1
+smoking_current,Current smoker,Smoking Status,3
+smoking_ever,Ever smoker,Smoking Status,2
+smoking_missing,Missing smoking,Smoking Status,4
+carehome_True, Care home residence,Care home residence,
+carehome,Care home residence,Care home residence,
+exp_prop_East (ref),Region: East (ref),Practice region,1
+exp_prop_East Midlands,Region: East Midlands,Practice region,2
+exp_prop_London,Region: London,Practice region,3
+exp_prop_North East,Region: North East,Practice region,4
+exp_prop_North West,Region: North West,Practice region,5
+exp_prop_South East,Region: South East,Practice region,6
+exp_prop_South West,Region: South West,Practice region,7
+exp_prop_West Midlands,Region: West Midlands,Practice region,8
+exp_prop_Yorkshire and The Humber,Region: Yorkshire and The Humber,Practice region,9
+af,Atrial fibrillation,Condition,
+alcoholproblem,Alcohol problems,Condition,
+anxietydepression,Anxiety or depression,Condition,
+asthma,Asthma,Condition,
+cancer,Cancer,Condition,
+chd,Coronary heart disease,Condition,
+ckd,Chronic kidney disease,Condition,
+constipation,Constipation,Condition,
+copd,Chronic obstructive pulmonary disease,Condition,
+ctd,Connective tissue disease,Condition,
+dementia,Dementia,Condition,
+diabetes,Diabetes,Condition,
+epilepsy,Epilepsy,Condition,
+hearingloss,Hearing loss,Condition,
+hf,Heart failure,Condition,
+hypertension,Hypertension,Condition,
+hypt,Hypothyroidism,Condition,
+ibs,Irritable bowel syndrome,Condition,
+obesity,Obesity,Obesity,
+osteoarthritis,Osteoarthritis,Condition,
+psychosis,Psychosis,Condition,
+stroketia,Stroke or TIA,Condition,
+listsize,Practice list size,List size,
+precovid,Pre-COVID19 (2018-10-01),,
+postcovid1,Post-lockdown I (2022-10-01),,
+postcovid2,Post-lockdown II (2023-10-01),,
+postcovid3,Post-lockdown III (2024-10-01),,
+apc_cumu,Admitted patient care (all),cumulative hospital use,1
+ec_cumu,Emergency care,cumulative hospital use,2
+apc_unpl_cumu,Unplanned admitted patient care,cumulative hospital use,3
+apc_plan_cumu,Planned admitted patient care,cumulative hospital use,4
+apc_mean,Admitted patient care (all),average weekly hospital use,1
+ec_mean,Emergency care,average weekly hospital use,2
+apc_unpl_mean,Unplanned admitted patient care,average weekly hospital use,3
+apc_plan_mean,Planned admitted patient care,average weekly hospital use,4
+apc_acsc_any_cumu,Admitted patient care (ACSC admissions),cumulative ACSC-related hospital use,1
+ec_acsc_any_cumu,Emergency care (ACSC attendances),cumulative ACSC-related hospital use,2
+apc_unpl_acsc_any_cumu,Unplanned admitted patient care (ACSC admissions),cumulative ACSC-related hospital use,3
+apc_plan_acsc_any_cumu,Planned admitted patient care (ACSC admissions),cumulative ACSC-related hospital use,4
+apc_acsc_any_mean,Admitted patient care (ACSC admissions),average weekly ACSC-related hospital use,1
+ec_acsc_any_mean,Emergency care (ACSC attendances),average weekly ACSC-related hospital use,2
+apc_unpl_acsc_any_mean,Unplanned Hospital admitted patient care (ACSC admissions),average weekly ACSC-related hospital use,3
+apc_plan_acsc_any_mean,Planned Hospital admitted patient care (ACSC admissions),average weekly ACSC-related hospital use,4
+apc,Admitted patient care (all),hospital use,1
+ec,Emergency care,hospital use,2
+apc_unpl,Unplanned admitted patient care,admitted patient care,3
+apc_plan,Planned admitted patient care,admitted patient care,4
+apc_acsc_any,Admitted patient care (ACSC admissions),ACSC-related hospital use,1
+ec_acsc_any,Emergency care (ACSC attendances),ACSC-related hospital use,2
+apc_unpl_acsc_any,Unplanned admitted patient care (ACSC admissions),ACSC-related admitted patient care,3
+apc_plan_acsc_any,Planned admitted patient care (ACSC admissions),ACSC-related admitted patient care,4
+main,All people,main,
+sub_asth,People with asthma,subgroup,1
+sub_copd,People with COPD,subgroup,2
+sub_diab,People with diabetes,subgroup,3
+sub_htn,People with hypertension,subgroup,4
+sub_sevmh,People with severe mental illness,subgroup,5
