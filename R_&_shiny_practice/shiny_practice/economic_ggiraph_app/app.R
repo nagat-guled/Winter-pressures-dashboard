@@ -1,8 +1,8 @@
 library(shiny)
 library(ggplot2)
 library(bslib)
+library(ggiraph)
 # create vectors to access all strings needed
-
 x <- c(
        "Personal Consumption Expenditures" = "pce",
        "Personal Savings Rate" = "psavert",
@@ -27,6 +27,7 @@ ui <- fluidPage(
     fg = "#925f94",
     bg = "#f3f3f3"
   ),
+
   selectInput(
     "x",
     label = "Select x-axis",
@@ -39,35 +40,37 @@ ui <- fluidPage(
     selected = "Total Population"
   ),
   # create hover functionality
-
-  plotOutput("plot",
-    hover = hoverOpts("plot_hover",
-      delay = 30,
-      delayType = "debounce"
-    )
-  ),
-  uiOutput("hover_box")
+  girafeOutput("plot", width = "100%", height = "600px"),
 )
 
 server <- function(input, output, session) {
   # plot graph using two dynamic variables
-  output$plot <- renderPlot({
-    ggplot(
-      economics,
+  output$plot <- renderGirafe({
+    data <- ggplot2::economics
+    data$id <- seq_len(nrow(data))
+    p <- ggplot(
+      data,
       aes(
         x = .data[[input$x]],
         y = .data[[input$y]],
-        color = date
+        color = date,
+        tooltip = paste(
+          "Date: ", date, "\n",
+          names(x)[x == input$x], ": ", .data[[input$x]], "\n",
+          names(y)[y == input$y], ": ", .data[[input$y]], "\n"
+        ),
+        data_id = id
       )
     ) +
-      geom_point(
-        size = 2
+      geom_point_interactive(
+        size = 1.5,
+        hover_css = "r:8pt;opacity:0.8;"
       ) +
       labs(
-        title = "US Economic Time Series",
         x = xlabel[[input$x]],
         y = ylabel[[input$y]]
       ) +
+      ggtitle("US Economic Time Series") +
       scale_y_continuous(
         labels = scales::comma
       ) +
@@ -85,7 +88,8 @@ server <- function(input, output, session) {
           color = NA
         ),
         plot.title = element_text(
-          size = 36,
+          hjust = 0,
+          size = 32,
           color = "#925f94",
           family = "Calibri"
         ),
@@ -100,49 +104,18 @@ server <- function(input, output, session) {
           family = "Calibri"
         )
       )
-  })
-  # create box that appears when hovering
-  output$hover_box <- renderUI({
-    if (is.null(input$plot_hover)) {
-      return(NULL)
-    }
-    # set location of box
-    point <- nearPoints(
-      economics,
-      input$plot_hover,
-      xvar = input$x,
-      yvar = input$y,
-      maxpoints = 1
-    )
-    if (nrow(point) == 0) {
-      return(NULL)
-    }
-
-    dynamic_x <- input$x
-    x_value <- point[[dynamic_x]]
-    dynamic_y <- input$y
-    y_value <- point[[dynamic_y]]
-
-    left_px <- input$plot_hover$coords_css$x + 10
-    top_px <- input$plot_hover$coords_css$y + 10
-
-    # set content and style of hover box
-    absolutePanel(
-      left = left_px,
-      top = top_px,
-      style =
-        "background: #f3f3f3;
-        font-size: 16px;
-        height: 80px;",
-      tags$pre(
-        paste0(
-          "Date: ", as.character(point$date), "\n",
-          names(x)[x == input$x], ": ", x_value, "\n",
-          names(y)[y == input$y], ": ", y_value, "\n"
+    girafe(
+      ggobj = p,
+      options = list(
+        opts_hover(css = "cursor:pointer;"),
+        opts_tooltip(
+          opacity = 0.9,
+          css = "background: white;"
         )
       )
     )
   })
+
 }
 
 shinyApp(ui, server)
