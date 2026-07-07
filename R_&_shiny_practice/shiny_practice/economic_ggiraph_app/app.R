@@ -39,7 +39,7 @@ ui <- fluidPage(
     choices = y,
     selected = "Total Population"
   ),
-  # create hover functionality
+  # Introduce ggiraph for hover functionality
   girafeOutput("plot", width = "100%", height = "600px"),
 )
 
