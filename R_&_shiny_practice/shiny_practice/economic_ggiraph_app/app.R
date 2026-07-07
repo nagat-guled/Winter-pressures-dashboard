@@ -21,11 +21,13 @@ ylabel <- c(
             pop = "Total Population, in thousands",
             unemploy = "Number of Unemployed, in thousands")
 
+fg_colour <- "#925f94"
+bg_colour <- "#f3f3f3"
 
 ui <- fluidPage(
   theme = bs_theme(
-    fg = "#925f94",
-    bg = "#f3f3f3"
+    fg = fg_colour,
+    bg = bg_colour
   ),
 
   selectInput(
@@ -80,22 +82,22 @@ server <- function(input, output, session) {
       theme_minimal() +
       theme(
         plot.background = element_rect(
-          fill = "#f3f3f3",
+          fill = bg_colour,
           color = NA
         ),
         panel.background = element_rect(
-          fill = "#f3f3f3",
+          fill = bg_colour,
           color = NA
         ),
         plot.title = element_text(
           hjust = 0,
-          size = 32,
-          color = "#925f94",
+          size = 28,
+          color = fg_colour,
           family = "Calibri"
         ),
         axis.title = element_text(
-          size = 18,
-          color = "#925f94",
+          size = 14,
+          color = fg_colour,
           family = "Calibri"
         ),
         axis.text = element_text(
