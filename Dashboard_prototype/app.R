@@ -83,7 +83,6 @@ ui <- page_navbar(
     layout_columns(
       col_widths = c(6, 6),
     card(
-      height = "800px",
       selectInput("outcome1", "Select Outcome:", choices = NULL),
       virtualSelectInput("exposures1", "Select exposures:", choices = exposures, selected = unlist(exposures, use.name = FALSE), multiple = TRUE, search = TRUE, dropboxWrapper = "body"),
       selectInput("subgroup1", "Select sub-groups:", choices = NULL),
