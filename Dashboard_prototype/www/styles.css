@@ -1,0 +1,53 @@
+   :root {
+      --UOB_red: #a6192e
+    }
+
+    body{
+      font-family: 'Open Sans';
+      font-size: 14px;
+    }
+    
+    h1 {
+      font-family: 'Sora';
+      font-weight: 600;
+      color: var(--UOB_red);
+      font-size: 26px;
+      position: relative;
+      top: 12px;
+     }
+
+     h2{
+      font-family: 'Open Sans';
+      margin-top: 25px;
+      font-size: 20px;
+     }
+
+     h3{
+      font-family: 'Open Sans';
+      font-size: 18px;
+      color: black;
+     }
+
+     .navbar-brand {
+      display: flex;
+      align-items: flex-start;
+     }
+
+     .navbar {
+      padding-top: 10px;
+      padding-bottom: 0;
+     }
+
+     .nav-link {
+      display: flex;
+      align-items: center;
+     }
+
+     .nav-link:hover{
+      color:  var(--UOB_red) !important;
+     }
+
+     .nav-link.active{
+      color: var(--UOB_red) !important;
+      font-weight: 600 !important;
+     }
