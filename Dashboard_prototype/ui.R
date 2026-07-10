@@ -33,9 +33,8 @@ ui <- page_navbar(
     h2("Dashboard"),
     card(
       girafeOutput(
-        "plot",
-        height = "500px"
-      ),
+        "plot"
+      )
     ),
     layout_columns(
       col_widths = c(6, 6),

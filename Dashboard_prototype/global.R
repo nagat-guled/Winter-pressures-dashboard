@@ -5,6 +5,11 @@ library(patchwork)
 library(ggplot2)
 library(ggiraph)
 library(shinyWidgets)
+library(tidyverse)
+
+# load model output file
+df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
+
 
 time_periods <- c(
   "Pre-Covid",
@@ -14,22 +19,58 @@ time_periods <- c(
 )
 exposures <- list(
   "Practice characteristics" = c(
-    "Practice region",
+    "Region: East (ref)", "Region: East Midlands",
+     "Region: London", "Region: North East", "Region: South East",
+     "Region: South West", "Region: West Midlands", "Region: Yorkshire and The Humber",
     "Practice list size",
-    "Monthly Consultation rate",
-    "Practice Rurality"
+    "Monthly Consultation rate (per 100 patients)",
+    "Practice Rurality: Urban conurbation"
   ),
   "Patient case-mix" = c(
-    "Age",
-    "Sex",
-    "Ethnicity",
-    "Deprivation",
+    "Age: Under 5 years",
+    "Age: 65-74 years",
+    "Age: 75-79 years",
+    "Age: 80-110 years",
+    "Sex: Female",
+    "Ethnicity: Mixed",
+    "Ethnicity: Black",
+    "Ethnicity: White",
+    "Ethnicity: Other",
+    "Deprivation: IMD 5 (least deprived)",
+    "Deprivation: IMD 1 (most deprived)",
     "Rurality",
-    "Smoking",
+    "Smoking Status: Current smoker",
+    "Smoking Status: Ever smoker",
+    "Smoking Status: Never smoker",
     "Obesity",
-    "Comorbidities",
-    "Vaccinations"
+    "Care home residence"
   )
+)
+
+outcomes <- c(
+  "Admitted patient care (all)",
+  "Admitted patient care (ACSC admissions)",
+  "Unplanned admitted patient care (all)",
+  "Unplanned admitted patient care (ACSC admissions)",
+  "Planned admitted patient care (all)",
+  "Planned admitted patient care (ACSC admissions)",
+  "Emergency care (all)",
+  "Emergency care (ACSC attendances)"
+)
+
+sub_groups <- c(
+  "All",
+  "Sub-group: Asthma",
+  "Sub-group: Diabetes",
+  "Sub-group: COPD",
+  "Sub-group: Hypertension",
+  "Sub-group: Severe mental health"
+)
+
+models <- c(
+  "Crude",
+  "Age-sex adjusted",
+  "Fully-adjusted"
 )
 
 filters_card <- function(id) {
@@ -39,7 +80,8 @@ filters_card <- function(id) {
     selectInput(
       ns("outcome"),
       tagList(icon("chart-line"), "Select Outcome:"),
-      choices = NULL
+      choices = outcomes,
+      selected = outcomes[[id]],
     ),
     virtualSelectInput(
       ns("exposures"),
@@ -52,8 +94,9 @@ filters_card <- function(id) {
     ),
     selectInput(
       ns("subgroup"),
-      "Select Sub-groups",
-      choices = NULL
+      "Select Sub-groups of the Population",
+      choices = sub_groups,
+      selected = sub_groups[[1]]
     ),
     selectInput(
       ns("model"),
@@ -64,7 +107,8 @@ filters_card <- function(id) {
           placement = "right"
         )
       ),
-      choices = NULL
+      choices = models,
+      selected = models[[2]]
     ),
     tags$div(
       style = "display: flex;",
