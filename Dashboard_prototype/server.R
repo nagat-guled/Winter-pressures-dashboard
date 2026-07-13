@@ -14,31 +14,49 @@ plot_graph <- function(){
       x = irr,
       y = exposure,
       colour = cohort,
-      data_id = cohort,
-    ) 
+      tooltip = paste(
+        time_periods[cohort], "\n",
+        exposure_labels[exposure], "\n",
+        "IRR: ", irr, "\n", " LCI: ", lci, "\n", " UCI: ", uci
+      ),
+      data_id = paste(cohort, exposure, sep = "_")
+    )
   ) +
   geom_point_interactive(
-    size = 4
+    size = 4,
+    position = position_dodge(width = 0.8)
   ) +
-  geom_errorbar(
+  geom_errorbarh(
     aes(
       xmin = lci,
       xmax = uci
     ),
     size = 1.5,
-    width = 0
+    width = 0,
+    position = position_dodge(width = 0.8),
+  ) +
+  geom_vline(
+    xintercept = c(1.0, 1.1),
+    linetype = "dotted",
+    color = "red",
+    size = 1.3
+  ) +
+  geom_vline(
+    xintercept = c(0.9, 1.2),
+    linetype = "dotted",
+    color = "black",
+    size = 0.9
   ) +
   labs(
-    x = "IRR",
+    x = "Incidence Rate Ratio (IRR)",
     y = "General Practice Characteristics"
   ) +
-  scale_x_continuous(expand = expansion(mult = 0.05)) +
-#   scale_y_discrete(labels = scales::label_wrap(20)) +
+  scale_y_discrete(
+    breaks = names(exposure_labels),
+    labels = unname(exposure_labels)
+  ) +
   theme_minimal() +
     theme(
-      panel.background = element_rect(
-        fill = "white"
-      ),
       axis.title = element_text(
         size = 20,
         family = "Open sans"
@@ -47,12 +65,17 @@ plot_graph <- function(){
         size = 14,
         family = "Open sans"
       ),
-    legend.key.width = unit(22, "pt"),
-    legend.key.height = unit(18, "pt"),
-    legend.spacing.x = unit(4, "pt"),
-    legend.spacing.y = unit(2, "pt"),
-    legend.text = element_text(size = 9),
-    legend.title = element_text(size = 9)
+      legend.title = element_blank(),
+      panel.border = element_blank(),
+      axis.line.y = element_blank(),
+      axis.line.x = element_line(),
+      panel.grid = element_blank(),
+      legend.position = "bottom",
+      legend.text = element_text(size = 15)
+    ) +
+    scale_color_discrete(
+      breaks = c("precovid", "postcovid1", "postcovid2", "postcovid3"),
+      labels = unname(time_periods)
     )
 }
 
@@ -60,13 +83,30 @@ server <- function(input, output) {
   output$plot <- renderGirafe({
     p1 <- plot_graph()
     p2 <- plot_graph()
-    combined_plot <- p1 + plot_spacer() + p2 + plot_layout(widths = c(6, 1, 6))
+    combined_plot <- p1 + p2 + plot_layout(widths = c(6, 6))
     girafe(
       ggobj = combined_plot,
-      width_svg = 28,
-      height_svg = 10,
+      width_svg = 30,
+      height_svg = 12,
       options = list(
-      opts_sizing(rescale = TRUE, width = 1)
+      opts_sizing(rescale = TRUE, width = 1),
+      opts_hover(css = "cursor:pointer; opacity: 1; transition-delay:0.2s;"),
+      #opts_hover_inv(css = 'opacity: 0.6;'),
+      opts_tooltip(
+          opacity = 0.9,
+          css = "background: #fffffff7; 
+          font-size: 10px;
+          font-family: 'Open Sans'; 
+          color: #333333;
+          padding: 4px;
+          border: 1px solid #A6192E;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px #0000001f"
+        ),
+      opts_zoom(min = 1, max = 5),
+      opts_toolbar(
+        hidden = c("lasso_select", "lasso_deselect")
+      )
       )
     )
   })

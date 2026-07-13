@@ -10,12 +10,35 @@ library(tidyverse)
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
 
+exposure_labels <- c(
+  "rurality_urban_comb" = "Rurality: Urban conurbation",
+  "practice_region" = "Practice region",
+  "list_size" = "Practice list size",
+  "cons_mean" = "Monthly consultation rate",
+  "imd_5_least" = "Deprivation: IMD 5 (least deprived)",
+  "imd_1_most" = "Deprivation: IMD 1 (most deprived)",
+  "obesity" = "Obesity",
+  "smoking_never" = "Smoking Status: Never smoker",
+  "smoking_ever" = "Smoking Status: Ever smoker",
+  "smoking_current" = "Smoking Status: Current smoker",
+  "sex_female" = "Sex: Female",
+  "ethnicity_white" = "Ethnicity: White",
+  "ethnicity_other" = "Ethnicity: Other",
+  "ethnicity_mixed" = "Ethnicity: Mixed",
+  "ethnicity_black" = "Ethnicity: Black",
+  "ethnicity_asian" = "Ethnicity: Asian",
+  "carehome" = "Care home residence",
+  "age_80" = "Age: 80-110 years",
+  "age_75_79" = "Age: 75-79 years",
+  "age_65_74" = "Age: 65-74 years",
+  "age_0_4" = "Age: Under 5 years"
+)
 
 time_periods <- c(
-  "Pre-Covid",
-  "Post-Lockdown 1",
-  "Post-Lockdown 2",
-  "Post-Lockdown 3"
+  "precovid" = "Pre-Covid",
+  "postcovid1" = "Post-Lockdown 1",
+  "postcovid2" = "Post-Lockdown 2",
+  "postcovid3" = "Post-Lockdown 3"
 )
 exposures <- list(
   "Practice characteristics" = c(
