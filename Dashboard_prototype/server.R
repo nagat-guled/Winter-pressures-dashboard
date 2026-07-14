@@ -31,6 +31,7 @@ plot_graph <- function(){
       xmin = lci,
       xmax = uci
     ),
+    alpha = 0.6,
     size = 1.5,
     width = 0,
     position = position_dodge(width = 0.8),
@@ -90,8 +91,8 @@ server <- function(input, output) {
       height_svg = 12,
       options = list(
       opts_sizing(rescale = TRUE, width = 1),
-      opts_hover(css = "cursor:pointer; opacity: 1; transition-delay:0.2s;"),
-      #opts_hover_inv(css = 'opacity: 0.6;'),
+      opts_hover(css = "cursor:pointer; transition-delay:0.2s;"),
+      opts_hover_inv(css = 'opacity: 0.6;'),
       opts_tooltip(
           opacity = 0.9,
           css = "background: #fffffff7; 
