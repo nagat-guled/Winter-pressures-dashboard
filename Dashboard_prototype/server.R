@@ -26,16 +26,19 @@ plot_graph <- function(){
     size = 4,
     position = position_dodge(width = 0.8)
   ) +
-  geom_errorbarh(
+  #interactive errorbar workaround
+  geom_tile_interactive(
     aes(
-      xmin = lci,
-      xmax = uci
+      x = (lci + uci) / 2,
+      width = uci - lci,
+      y = exposure,
+      fill = cohort,
+      data_id = paste(cohort, exposure, sep = "_")
     ),
-    alpha = 0.6,
-    size = 1.5,
-    width = 0,
+    height = 0.2,
     position = position_dodge(width = 0.8),
-  ) +
+    show.legend = FALSE
+    ) +
   geom_vline(
     xintercept = c(1.0, 1.1),
     linetype = "dotted",
@@ -91,7 +94,7 @@ server <- function(input, output) {
       height_svg = 12,
       options = list(
       opts_sizing(rescale = TRUE, width = 1),
-      opts_hover(css = "cursor:pointer; transition-delay:0.2s;"),
+      opts_hover(css = "cursor:pointer; opacity: 1; transition-delay:0.2s;"),
       opts_hover_inv(css = 'opacity: 0.6;'),
       opts_tooltip(
           opacity = 0.9,
