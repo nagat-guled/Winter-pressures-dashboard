@@ -31,15 +31,11 @@ ui <- page_navbar(
   ),
   nav_panel(
     h2("Dashboard"),
+    filters_button(),
     card(
       girafeOutput(
         "plot"
       )
     ),
-    layout_columns(
-      col_widths = c(6, 6),
-      filters_card(1),
-      filters_card(2)
-    )
   )
 )

@@ -1,13 +1,20 @@
-df <- df %>%
-  filter(
-    analysis == "main" &
-      outcome == "apc_main" &
-      model_type == "negbin" &
-      model == "mdl_age_sex" &
-      term == "exp_prop"
-  )
+plot_graph <- function(outcome_num){
+  df <- df %>%
+    filter(
+      analysis == "main" &
+        outcome == outcome_raw[outcome_num] &
+        model_type == "negbin" &
+        model == "mdl_age_sex" &
+        grepl("^exp_prop(_|$)", term)
+    ) %>%
+    mutate(
+      exposure = if_else(exposure == "practice_region" | exposure == "practice_rurality",
+      substring(term, nchar("exp_prop_") + 1), exposure
+      ),
+      lci = if_else(grepl("ref", term), 1, lci),
+      uci = if_else(grepl("ref", term), 1, uci)
+    )
 
-plot_graph <- function(){
   ggplot(
     df,
     aes(
@@ -35,37 +42,52 @@ plot_graph <- function(){
       fill = cohort,
       data_id = paste(cohort, exposure, sep = "_")
     ),
-    height = 0.2,
+    height = 0.3,
     position = position_dodge(width = 0.8),
     show.legend = FALSE
     ) +
   geom_vline(
-    xintercept = c(1.0, 1.1),
+    xintercept = 1.0,
     linetype = "dotted",
-    color = "red",
-    size = 1.3
-  ) +
-  geom_vline(
-    xintercept = c(0.9, 1.2),
-    linetype = "dotted",
-    color = "black",
-    size = 0.9
+    color = "#b42323",
+    linewidth = 1.3
   ) +
   labs(
+    title = outcome_titles[outcome_num],
     x = "Incidence Rate Ratio (IRR)",
     y = "General Practice Characteristics"
   ) +
   scale_y_discrete(
+    limits = names(exposure_labels),
     breaks = names(exposure_labels),
-    labels = unname(exposure_labels)
+    labels = exposure_labels
   ) +
   theme_minimal() +
     theme(
-      axis.title = element_text(
-        size = 20,
-        family = "Open sans"
+      plot.title = element_text(
+        size = 25,
+        family = "Open sans",
+        hjust = 0.4
       ),
-      axis.text = element_text(
+      axis.title.y = if (outcome_num == 4) {
+        element_text(size = 35, family = "Open Sans")
+      } else {
+        element_blank()
+      },
+      axis.title.x = if (outcome_num == 8) {
+       element_text(
+        size = 35,
+        hjust = -1,
+        family = "Open sans"
+      )} else {
+        element_blank()
+      },
+      axis.text.y = if (outcome_num %in% c(1, 4, 7)) {
+        element_text(size = 16, family = "Open Sans")
+      } else {
+        element_blank()
+      },
+      axis.text.x = element_text(
         size = 14,
         family = "Open sans"
       ),
@@ -74,8 +96,14 @@ plot_graph <- function(){
       axis.line.y = element_blank(),
       axis.line.x = element_line(),
       panel.grid = element_blank(),
-      legend.position = "bottom",
-      legend.text = element_text(size = 15)
+      legend.position = if (outcome_num != 8) {
+        "none"
+      },
+      legend.text = if (outcome_num == 8) {
+        element_text(size = 25)
+      } else {
+        element_blank()
+      }
     ) +
     scale_color_discrete(
       breaks = c("precovid", "postcovid1", "postcovid2", "postcovid3"),
@@ -85,13 +113,20 @@ plot_graph <- function(){
 
 server <- function(input, output) {
   output$plot <- renderGirafe({
-    p1 <- plot_graph()
-    p2 <- plot_graph()
-    combined_plot <- p1 + p2 + plot_layout(widths = c(6, 6))
+    plots <- list()
+    for (x in 1:8){
+      p <- plot_graph(x)
+      plots[[x]] <- p
+    }
+    bottom_row <- (plot_spacer() | plots[[7]] | plots[[8]] | plot_spacer()) +
+      plot_layout(widths = c(0.5, 4, 4, 1))
+    combined_plot <- (plots[[1]] | plots[[2]] | plots[[3]]) /
+      (plots[[4]] | plots[[5]] | plots[[6]]) / bottom_row
+
     girafe(
       ggobj = combined_plot,
-      width_svg = 30,
-      height_svg = 12,
+      width_svg = 36,
+      height_svg = 40,
       options = list(
       opts_sizing(rescale = TRUE, width = 1),
       opts_hover(css = "cursor:pointer; opacity: 1; transition-delay:0.2s;"),
@@ -109,6 +144,7 @@ server <- function(input, output) {
         ),
       opts_zoom(min = 1, max = 5),
       opts_toolbar(
+        position = "bottomright",
         hidden = c("lasso_select", "lasso_deselect")
       )
       )

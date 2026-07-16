@@ -51,3 +51,13 @@
       color: var(--UOB_red) !important;
       font-weight: 600 !important;
      }
+
+     /* stack virtualselectinput above dropdownbutton */
+
+     .vscomp-dropbox-container {
+      z-index: 10000 !important;
+     }
+
+     .dropdown-menu {
+      z-index: 9999 !important;
+     }

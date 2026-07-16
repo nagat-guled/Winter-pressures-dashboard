@@ -11,7 +11,18 @@ library(tidyverse)
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
 
 exposure_labels <- c(
-  "rurality_urban_comb" = "Rurality: Urban conurbation",
+  "East (ref)" = "Region: East (ref)",
+  "East Midlands" = "Region: East Midlands",
+  "South East" = "Region: South East",
+  "London" = "Region: London",
+  "North East" = "Region: North East",
+  "North West" = "Region: North West",
+  "South West" = "Region: South West",
+  "West Midlands" = "Region: West Midlands",
+  "Yorkshire and The Humber" = "Region: Yorkshire and The Humber",
+  "Urban conurbation (ref)" = "Rurality: Urban conurbation",
+  "Urban town" = "Rurality: Urban Town",
+  "Rural" = "Rurality: Rural",
   "practice_region" = "Practice region",
   "list_size" = "Practice list size",
   "cons_mean" = "Monthly consultation rate",
@@ -43,11 +54,15 @@ time_periods <- c(
 exposures <- list(
   "Practice characteristics" = c(
     "Region: East (ref)", "Region: East Midlands",
-     "Region: London", "Region: North East", "Region: South East",
-     "Region: South West", "Region: West Midlands", "Region: Yorkshire and The Humber",
+    "Region: London", "Region: South East",
+    "Region: North East", "Region: North West",
+    "Region: South West", "Region: West Midlands",
+    "Region: Yorkshire and The Humber",
     "Practice list size",
     "Monthly Consultation rate (per 100 patients)",
-    "Practice Rurality: Urban conurbation"
+    "Practice Rurality: Urban conurbation (ref)",
+    "Practice Rurality: Urban town",
+    "Practice Rurality: Rural"
   ),
   "Patient case-mix" = c(
     "Age: Under 5 years",
@@ -58,6 +73,7 @@ exposures <- list(
     "Ethnicity: Mixed",
     "Ethnicity: Black",
     "Ethnicity: White",
+    "Ethnicity: Asian",
     "Ethnicity: Other",
     "Deprivation: IMD 5 (least deprived)",
     "Deprivation: IMD 1 (most deprived)",
@@ -70,13 +86,24 @@ exposures <- list(
   )
 )
 
-outcomes <- c(
+outcome_raw <- c(
+  "apc_main",
+  "apc_plan_main",
+  "apc_unpl_main",
+  "apc_acsc_any_main",
+  "apc_plan_acsc_any_main",
+  "apc_unpl_acsc_any_main",
+  "ec_main",
+  "ec_acsc_any_main"
+)
+
+outcome_titles <- c(
   "Admitted patient care (all)",
-  "Admitted patient care (ACSC admissions)",
-  "Unplanned admitted patient care (all)",
-  "Unplanned admitted patient care (ACSC admissions)",
   "Planned admitted patient care (all)",
+  "Unplanned admitted patient care (all)",
+  "Admitted patient care (ACSC admissions)",
   "Planned admitted patient care (ACSC admissions)",
+  "Unplanned admitted patient care (ACSC admissions)",
   "Emergency care (all)",
   "Emergency care (ACSC attendances)"
 )
@@ -96,18 +123,10 @@ models <- c(
   "Fully-adjusted"
 )
 
-filters_card <- function(id) {
-  ns <- NS(id)
-  card(
-    height = "400px",
-    selectInput(
-      ns("outcome"),
-      tagList(icon("chart-line"), "Select Outcome:"),
-      choices = outcomes,
-      selected = outcomes[[id]],
-    ),
+filters_button <- function(id) {
+  dropdownButton(
     virtualSelectInput(
-      ns("exposures"),
+      "exposures",
       "Select Exposures: ",
       choices = exposures,
       selected = unlist(exposures, use.names = FALSE),
@@ -116,13 +135,13 @@ filters_card <- function(id) {
       dropboxWrapper = "body"
     ),
     selectInput(
-      ns("subgroup"),
+      "subgroup",
       "Select Sub-groups of the Population",
       choices = sub_groups,
       selected = sub_groups[[1]]
     ),
     selectInput(
-      ns("model"),
+      "model",
       label = tagList("Select Model:",
         tooltip(
           icon("circle-info", style = "color: #a6192e"),
@@ -136,29 +155,26 @@ filters_card <- function(id) {
     tags$div(
       style = "display: flex;",
       tags$div(
-        prettyToggle(
-          ns("probdist"),
-          label_on = "Poisson",
-          label_off = "Negative Binomial",
-          status_on = "primary",
-          status_off = "default"
+        prettyRadioButtons(
+          "probdist",
+          label = "Select probability distribution:",
+          choices = c("Negative binomial", "Poisson"),
+          outline = TRUE,
+          plain = TRUE,
+          status = 'primary',
+          icon = icon("check")
         )
       ),
-      tags$span(
-        tooltip(
-          icon("circle-info",
-            style = "color: #a6192e; margin-left: -150px;"
-          ),
-        "Select preferred probability distribution",
-        placement = "right"
-      )
-    )
     ),
     checkboxGroupButtons(
-      ns("time"),
+      "time",
       "Select Time Periods:",
       choices = time_periods,
       selected = time_periods
-    )
+    ),
+    circle = FALSE,
+    status = "primary",
+    icon = icon("filter"),
+    width = "600px"
   )
 }
