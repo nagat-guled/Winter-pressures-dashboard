@@ -20,12 +20,11 @@ exposure_labels <- c(
   "South West" = "Region: South West",
   "West Midlands" = "Region: West Midlands",
   "Yorkshire and The Humber" = "Region: Yorkshire and The Humber",
-  "Urban conurbation (ref)" = "Rurality: Urban conurbation",
-  "Urban town" = "Rurality: Urban Town",
+  "Urban conurbation (ref)" = "Rurality: Urban conurbation (ref)",
+  "Urban town" = "Rurality: Urban town",
   "Rural" = "Rurality: Rural",
-  "practice_region" = "Practice region",
   "list_size" = "Practice list size",
-  "cons_mean" = "Monthly consultation rate",
+  "cons_mean" = "Monthly consultation rate (per 1000 patients)",
   "imd_5_least" = "Deprivation: IMD 5 (least deprived)",
   "imd_1_most" = "Deprivation: IMD 1 (most deprived)",
   "obesity" = "Obesity",
@@ -59,10 +58,10 @@ exposures <- list(
     "Region: South West", "Region: West Midlands",
     "Region: Yorkshire and The Humber",
     "Practice list size",
-    "Monthly Consultation rate (per 100 patients)",
-    "Practice Rurality: Urban conurbation (ref)",
-    "Practice Rurality: Urban town",
-    "Practice Rurality: Rural"
+    "Monthly consultation rate (per 1000 patients)",
+    "Rurality: Urban conurbation (ref)",
+    "Rurality: Urban town",
+    "Rurality: Rural"
   ),
   "Patient case-mix" = c(
     "Age: Under 5 years",
@@ -77,7 +76,6 @@ exposures <- list(
     "Ethnicity: Other",
     "Deprivation: IMD 5 (least deprived)",
     "Deprivation: IMD 1 (most deprived)",
-    "Rurality",
     "Smoking Status: Current smoker",
     "Smoking Status: Ever smoker",
     "Smoking Status: Never smoker",
@@ -87,14 +85,14 @@ exposures <- list(
 )
 
 outcome_raw <- c(
-  "apc_main",
-  "apc_plan_main",
-  "apc_unpl_main",
-  "apc_acsc_any_main",
-  "apc_plan_acsc_any_main",
-  "apc_unpl_acsc_any_main",
-  "ec_main",
-  "ec_acsc_any_main"
+  "apc_",
+  "apc_plan_",
+  "apc_unpl_",
+  "apc_acsc_any_",
+  "apc_plan_acsc_any_",
+  "apc_unpl_acsc_any_",
+  "ec_",
+  "ec_acsc_any_"
 )
 
 outcome_titles <- c(
@@ -109,47 +107,52 @@ outcome_titles <- c(
 )
 
 sub_groups <- c(
-  "All",
-  "Sub-group: Asthma",
-  "Sub-group: Diabetes",
-  "Sub-group: COPD",
-  "Sub-group: Hypertension",
-  "Sub-group: Severe mental health"
+  "main" = "All",
+  "sub_asth" = "Sub-group: Asthma",
+  "sub_diab" = "Sub-group: Diabetes",
+  "sub_copd" = "Sub-group: COPD",
+  "sub_htn" = "Sub-group: Hypertension",
+  "sub_sevmh" = "Sub-group: Severe mental health"
 )
 
 models <- c(
-  "Crude",
-  "Age-sex adjusted",
-  "Fully-adjusted"
+  "mdl_crude" = "Crude",
+  "mdl_age_sex" = "Age-sex adjusted",
+  "mdl_max_adj" = "Fully adjusted"
 )
 
-filters_button <- function(id) {
+probdists <- c(
+  "negbin" = "Negative binomial",
+  "poisson" = "Poisson"
+)
+
+filters_button <- function() {
   dropdownButton(
     virtualSelectInput(
-      "exposures",
-      "Select Exposures: ",
+      "selected_exposures",
+      "Select exposures:",
       choices = exposures,
-      selected = unlist(exposures, use.names = FALSE),
+      selected = exposures[["Patient case-mix"]],
       multiple = TRUE,
       search = TRUE,
       dropboxWrapper = "body"
     ),
     selectInput(
       "subgroup",
-      "Select Sub-groups of the Population",
-      choices = sub_groups,
+      "Select population sub-group:",
+      choices = unname(sub_groups),
       selected = sub_groups[[1]]
     ),
     selectInput(
       "model",
-      label = tagList("Select Model:",
+      label = tagList("Select model:",
         tooltip(
           icon("circle-info", style = "color: #a6192e"),
           "Choose between no adjustment, age/sex adjusted and fully adjusted values.",
           placement = "right"
         )
       ),
-      choices = models,
+      choices = unname(models),
       selected = models[[2]]
     ),
     tags$div(
@@ -158,7 +161,7 @@ filters_button <- function(id) {
         prettyRadioButtons(
           "probdist",
           label = "Select probability distribution:",
-          choices = c("Negative binomial", "Poisson"),
+          choices = unname(probdists),
           outline = TRUE,
           plain = TRUE,
           status = 'primary',
@@ -168,7 +171,7 @@ filters_button <- function(id) {
     ),
     checkboxGroupButtons(
       "time",
-      "Select Time Periods:",
+      "Select time periods:",
       choices = time_periods,
       selected = time_periods
     ),

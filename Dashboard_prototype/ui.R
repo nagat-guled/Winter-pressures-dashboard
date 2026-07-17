@@ -37,5 +37,5 @@ ui <- page_navbar(
         "plot"
       )
     ),
-  )
+  ),
 )
