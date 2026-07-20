@@ -1,15 +1,28 @@
-plot_graph <- function(outcome_num, sub_selec, exp_selec, model_selec, prob_selec, time_selec) {
+
+# pass all dynamic variables into function
+plot_graph <- function(outcome_num,
+  sub_selec,
+  exp_selec,
+  model_selec,
+  prob_selec,
+  time_selec
+) {
+  # filter dataset depending on user input and outcome
   df <- df %>%
     filter(
       analysis == names(sub_groups)[sub_groups == sub_selec] &
-        outcome == paste0(outcome_raw[outcome_num], names(sub_groups)[sub_groups == sub_selec]) &
+        outcome == paste0(outcome_raw[outcome_num],
+          names(sub_groups)[sub_groups == sub_selec]
+        ) &
         model_type == names(probdists)[probdists == prob_selec] &
         model == names(models)[models == model_selec] &
         grepl("^exp_prop(_|$)", term)
     ) %>%
     mutate(
-      exposure = if_else(exposure == "practice_region" | exposure == "practice_rurality",
-      substring(term, nchar("exp_prop_") + 1), exposure
+      exposure = if_else(exposure == "practice_region" |
+          exposure == "practice_rurality",
+        substring(term, nchar("exp_prop_") + 1),
+        exposure
       ),
       lci = if_else(grepl("ref", term), 1, lci),
       uci = if_else(grepl("ref", term), 1, uci)
@@ -43,7 +56,7 @@ plot_graph <- function(outcome_num, sub_selec, exp_selec, model_selec, prob_sele
       alpha = 0.7
     ),
     linewidth = 1,
-    width = 0.5,
+    width = 0.2,
     orientation = "y",
     position = position_dodge(width = 0.8),
     show.legend = FALSE
@@ -77,15 +90,16 @@ plot_graph <- function(outcome_num, sub_selec, exp_selec, model_selec, prob_sele
         element_blank()
       },
       axis.title.x = if (outcome_num == 8) {
-       element_text(
-        size = 35,
-        hjust = -1,
-        family = "Open sans"
-      )} else {
+        element_text(
+          size = 35,
+          hjust = -1,
+          family = "Open sans"
+        )
+      } else {
         element_blank()
       },
       axis.text.y = if (outcome_num %in% c(1, 4, 7)) {
-        element_text(size = 16, family = "Open Sans")
+        element_text(size = 18, family = "Open Sans")
       } else {
         element_blank()
       },
@@ -117,15 +131,18 @@ server <- function(input, output) {
   output$plot <- renderGirafe({
     plots <- list()
     for (x in 1:8){
-      p <- plot_graph(x,
-      input$subgroup,
-      input$selected_exposures,
-      input$model,
-      input$probdist,
-      input$time)
+      p <- plot_graph(
+        x,
+        input$subgroup,
+        input$selected_exposures,
+        input$model,
+        input$probdist,
+        input$time
+      )
 
       plots[[x]] <- p
     }
+    # design plot layout for all 8 outcomes
     bottom_row <- (plot_spacer() | plots[[7]] | plots[[8]] | plot_spacer()) +
       plot_layout(widths = c(0.5, 4, 4, 1))
     combined_plot <- (plots[[1]] | plots[[2]] | plots[[3]]) /
@@ -136,10 +153,10 @@ server <- function(input, output) {
       width_svg = 36,
       height_svg = 40,
       options = list(
-      opts_sizing(rescale = TRUE, width = 1),
-      opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
-      opts_hover_inv(css = "opacity: 0.7;"),
-      opts_tooltip(
+        opts_sizing(rescale = TRUE, width = 1),
+        opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
+        opts_hover_inv(css = "opacity: 0.7;"),
+        opts_tooltip(
           opacity = 0.9,
           css = "background: #fffffff7; 
           font-size: 10px;
@@ -150,11 +167,11 @@ server <- function(input, output) {
           border-radius: 6px;
           box-shadow: 0 2px 8px #0000001f"
         ),
-      opts_zoom(min = 1, max = 5),
-      opts_toolbar(
-        position = "bottomright",
-        hidden = c("lasso_select", "lasso_deselect")
-      )
+        opts_zoom(min = 1, max = 5),
+        opts_toolbar(
+          position = "bottomright",
+          hidden = c("lasso_select", "lasso_deselect")
+        )
       )
     )
   })

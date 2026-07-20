@@ -10,6 +10,8 @@ library(tidyverse)
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
 
+# map columns in dataset to labels for dashboard
+
 exposure_labels <- c(
   "East (ref)" = "Region: East (ref)",
   "East Midlands" = "Region: East Midlands",
@@ -126,8 +128,11 @@ probdists <- c(
   "poisson" = "Poisson"
 )
 
-filters_button <- function() {
-  dropdownButton(
+# create panel containing widgets for user selection
+
+filters <- function() {
+  absolutePanel(
+    id = "panel",
     virtualSelectInput(
       "selected_exposures",
       "Select exposures:",
@@ -148,7 +153,7 @@ filters_button <- function() {
       label = tagList("Select model:",
         tooltip(
           icon("circle-info", style = "color: #a6192e"),
-          "Choose between no adjustment, age/sex adjusted and fully adjusted values.",
+          "Choose between no adjustment, age/sex adjusted and fully adjusted results.",
           placement = "right"
         )
       ),
@@ -175,9 +180,10 @@ filters_button <- function() {
       choices = time_periods,
       selected = time_periods
     ),
-    circle = FALSE,
-    status = "primary",
-    icon = icon("filter"),
-    width = "600px"
+    draggable = TRUE,
+    width = "550px",
+    height = "400px",
+    style = "background-color: white;",
+    left = "30%"
   )
 }

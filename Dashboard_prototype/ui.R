@@ -26,16 +26,17 @@ ui <- page_navbar(
     ),
     h1("Interactive Winter Pressures Dashboard")
   ),
+  # create navigation bar containing tabs
   nav_panel(
     h2("About")
   ),
   nav_panel(
     h2("Dashboard"),
-    filters_button(),
     card(
       girafeOutput(
         "plot"
       )
     ),
+    filters()
   ),
 )
