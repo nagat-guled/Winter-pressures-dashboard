@@ -36,16 +36,15 @@ plot_graph <- function(outcome_num, sub_selec, exp_selec, model_selec, prob_sele
     size = 4,
     position = position_dodge(width = 0.8)
   ) +
-  #interactive errorbar workaround
-  geom_tile_interactive(
+  geom_errorbar(
     aes(
-      x = (lci + uci) / 2,
-      width = uci - lci,
-      height = 0.3,
-      y = exposure,
-      fill = cohort,
-      data_id = paste(cohort, exposure, sep = "_")
+      xmax = uci,
+      xmin = lci,
+      alpha = 0.7
     ),
+    linewidth = 1,
+    width = 0.5,
+    orientation = "y",
     position = position_dodge(width = 0.8),
     show.legend = FALSE
     ) +
@@ -138,8 +137,8 @@ server <- function(input, output) {
       height_svg = 40,
       options = list(
       opts_sizing(rescale = TRUE, width = 1),
-      opts_hover(css = "cursor:pointer; opacity: 1; transition-delay:0.2s;"),
-      opts_hover_inv(css = 'opacity: 0.6;'),
+      opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
+      opts_hover_inv(css = "opacity: 0.7;"),
       opts_tooltip(
           opacity = 0.9,
           css = "background: #fffffff7; 
