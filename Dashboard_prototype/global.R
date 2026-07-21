@@ -178,7 +178,7 @@ filters <- function() {
       "time",
       "Select time periods:",
       choices = time_periods,
-      selected = time_periods
+      selected = time_periods[c(1, 4)]
     ),
     draggable = TRUE,
     width = "550px",

@@ -1,3 +1,4 @@
+uob_red <- "#a6192e"
 
 # pass all dynamic variables into function
 plot_graph <- function(outcome_num,
@@ -31,6 +32,12 @@ plot_graph <- function(outcome_num,
       exposure %in% names(exposure_labels)[match(exp_selec, exposure_labels)] &
         cohort %in% names(time_periods)[match(time_selec, time_periods)]
     )
+  # update error messages
+  validate(
+    need(exp_selec != "", "Please select at least one exposure"),
+    need(time_selec != "", "Please select at least one time period")
+  )
+
   ggplot(
     df,
     aes(
@@ -82,7 +89,9 @@ plot_graph <- function(outcome_num,
       plot.title = element_text(
         size = 25,
         family = "Open sans",
-        hjust = 0.4
+        hjust = 0,
+        colour = uob_red,
+        face = "bold"
       ),
       axis.title.y = if (outcome_num == 4) {
         element_text(size = 35, family = "Open Sans")
@@ -111,7 +120,7 @@ plot_graph <- function(outcome_num,
       panel.border = element_blank(),
       axis.line.y = element_blank(),
       axis.line.x = element_line(),
-      panel.grid = element_blank(),
+      #panel.grid = element_blank(),
       legend.position = if (outcome_num != 8) {
         "none"
       },
@@ -158,10 +167,10 @@ server <- function(input, output) {
         opts_hover_inv(css = "opacity: 0.7;"),
         opts_tooltip(
           opacity = 0.9,
-          css = "background: #fffffff7; 
-          font-size: 10px;
-          font-family: 'Open Sans'; 
-          color: #333333;
+          css = "background-color: #f8f8ff; 
+          font-size: 12px;
+          font-family: 'Sora'; 
+          color: #696969;
           padding: 4px;
           border: 1px solid #A6192E;
           border-radius: 6px;
