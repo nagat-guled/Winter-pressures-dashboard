@@ -29,7 +29,7 @@ plot_graph <- function(outcome_num,
       uci = if_else(grepl("ref", term), 1, uci)
     ) %>%
     filter(
-      exposure %in% names(exposure_labels)[match(exp_selec, exposure_labels)] &
+      exposure %in% unlist(exposure_groups[exp_selec], use.names = FALSE) &
         cohort %in% names(time_periods)[match(time_selec, time_periods)]
     )
   # update error messages
@@ -37,6 +37,9 @@ plot_graph <- function(outcome_num,
     need(exp_selec != "", "Please select at least one exposure"),
     need(time_selec != "", "Please select at least one time period")
   )
+  # grab axis names in correct order
+  order_exposures <- rev(names(exposure_labels)[
+  names(exposure_labels) %in% unlist(exposure_groups[exp_selec], use.names = FALSE)])
 
   ggplot(
     df,
@@ -47,7 +50,9 @@ plot_graph <- function(outcome_num,
       tooltip = paste(
         time_periods[cohort], "\n",
         exposure_labels[exposure], "\n",
-        "IRR: ", irr, "\n", " LCI: ", lci, "\n", " UCI: ", uci
+        "IRR: ", format(round(irr, 2), nsmall = 2), "\n",
+        " LCI: ", format(round(lci, 2), nsmall = 2), "\n",
+        " UCI: ", format(round(uci, 2), nsmall = 2)
       ),
       data_id = paste(cohort, exposure, sep = "_")
     )
@@ -63,7 +68,7 @@ plot_graph <- function(outcome_num,
       alpha = 0.7
     ),
     linewidth = 1,
-    width = 0.2,
+    width = 0.05,
     orientation = "y",
     position = position_dodge(width = 0.8),
     show.legend = FALSE
@@ -79,16 +84,17 @@ plot_graph <- function(outcome_num,
     x = "Incidence Rate Ratio (IRR)",
     y = "General Practice Characteristics"
   ) +
-  scale_y_discrete(
-    limits = names(exposure_labels)[match(exp_selec, exposure_labels)],
-    breaks = names(exposure_labels)[match(exp_selec, exposure_labels)],
-    labels = exposure_labels[exposure_labels %in% exp_selec]
+  scale_y_discrete( 
+    limits = order_exposures,
+    breaks = order_exposures,
+    labels = stringr::str_wrap(exposure_labels[order_exposures], width = 15)
   ) +
+  xlim(0.6, 1.5) +
   theme_minimal() +
     theme(
       plot.title = element_text(
         size = 25,
-        family = "Open sans",
+        family = "Sora",
         hjust = 0,
         colour = uob_red,
         face = "bold"
@@ -102,24 +108,28 @@ plot_graph <- function(outcome_num,
         element_text(
           size = 35,
           hjust = -1,
-          family = "Open sans"
+          family = "Open Sans"
         )
       } else {
         element_blank()
       },
       axis.text.y = if (outcome_num %in% c(1, 4, 7)) {
-        element_text(size = 18, family = "Open Sans")
+        element_text(size = 16, family = "Open Sans",
+        lineheight = 0.7)
       } else {
         element_blank()
       },
       axis.text.x = element_text(
         size = 14,
-        family = "Open sans"
+        family = "Open Sans"
       ),
       legend.title = element_blank(),
-      panel.border = element_blank(),
+      panel.border = element_rect(colour = "gray50", linewidth = 0.4),
       axis.line.y = element_blank(),
       axis.line.x = element_line(),
+      panel.grid.major = element_line(colour = "gray50", size = 0.6),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = element_blank(),
       #panel.grid = element_blank(),
       legend.position = if (outcome_num != 8) {
         "none"
@@ -130,7 +140,12 @@ plot_graph <- function(outcome_num,
         element_blank()
       }
     ) +
-    scale_color_discrete(
+    scale_color_manual(
+      values = c(
+      "precovid" = "coral",
+      "postcovid1" = "darkseagreen",
+      "postcovid2" = "orchid",
+      "postcovid3" = "deepskyblue"),
       breaks = c("precovid", "postcovid1", "postcovid2", "postcovid3"),
       labels = unname(time_periods)
     )
@@ -159,8 +174,8 @@ server <- function(input, output) {
 
     girafe(
       ggobj = combined_plot,
-      width_svg = 36,
-      height_svg = 40,
+      width_svg = 38,
+      height_svg = 58,
       options = list(
         opts_sizing(rescale = TRUE, width = 1),
         opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),

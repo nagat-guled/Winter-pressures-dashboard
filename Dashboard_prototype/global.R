@@ -6,19 +6,82 @@ library(ggplot2)
 library(ggiraph)
 library(shinyWidgets)
 library(tidyverse)
+library(stringr)
 
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
 
 # map columns in dataset to labels for dashboard
 
+exposure_groups <- list(
+  Region = c("East (ref)",
+             "East Midlands",
+             "London",
+             "North East",
+             "North West",
+             "South East",
+             "South West",
+             "West Midlands",
+             "Yorkshire and The Humber"),
+  Rurality = c("Urban conurbation (ref)",
+               "Urban town",
+               "Rural"),
+  "Practice list size" = "list_size",
+  "Monthly consultation rate (per 1000 patients)" = "cons_mean",
+  "Age: Under 5 years" = "age_0_4",
+  "Age: 65-74 years" = "age_65_74",
+  "Age: 75-79 years" = "age_75_79",
+  "Age: 80-110 years" = "age_80",
+  "Sex: Female" = "sex_female",
+  "Ethnicity: White" = "ethnicity_white",
+  "Ethnicity: Asian" = "ethnicity_asian",
+  "Ethnicity: Black" = "ethnicity_black",
+  "Ethnicity: Mixed" = "ethnicity_mixed",
+  "Ethnicity: Other" = "ethnicity_other",
+  "Deprivation: IMD 1 (most deprived)" = "imd_1_most",
+  "Deprivation: IMD 5 (least deprived)" = "imd_5_least",
+  "Smoking Status: Never smoker" = "smoking_never",
+  "Smoking Status: Ever smoker" = "smoking_ever",
+  "Smoking Status: Current smoker" = "smoking_current",
+  "Obesity" = "obesity",
+  "Care home residence" = "carehome"
+)
+
+exposures_input <- list(
+  "Practice characteristics" = c(
+    "Region",
+    "Rurality",
+    "Practice list size",
+    "Monthly consultation rate (per 1000 patients)"
+  ),
+  "Patient case-mix" = c(
+    "Age: Under 5 years",
+    "Age: 65-74 years",
+    "Age: 75-79 years",
+    "Age: 80-110 years",
+    "Sex: Female",
+    "Ethnicity: Mixed",
+    "Ethnicity: Black",
+    "Ethnicity: White",
+    "Ethnicity: Asian",
+    "Ethnicity: Other",
+    "Deprivation: IMD 5 (least deprived)",
+    "Deprivation: IMD 1 (most deprived)",
+    "Smoking Status: Current smoker",
+    "Smoking Status: Ever smoker",
+    "Smoking Status: Never smoker",
+    "Obesity",
+    "Care home residence"
+  )
+)
+
 exposure_labels <- c(
   "East (ref)" = "Region: East (ref)",
   "East Midlands" = "Region: East Midlands",
-  "South East" = "Region: South East",
   "London" = "Region: London",
   "North East" = "Region: North East",
   "North West" = "Region: North West",
+  "South East" = "Region: South East",
   "South West" = "Region: South West",
   "West Midlands" = "Region: West Midlands",
   "Yorkshire and The Humber" = "Region: Yorkshire and The Humber",
@@ -27,23 +90,23 @@ exposure_labels <- c(
   "Rural" = "Rurality: Rural",
   "list_size" = "Practice list size",
   "cons_mean" = "Monthly consultation rate (per 1000 patients)",
-  "imd_5_least" = "Deprivation: IMD 5 (least deprived)",
-  "imd_1_most" = "Deprivation: IMD 1 (most deprived)",
-  "obesity" = "Obesity",
-  "smoking_never" = "Smoking Status: Never smoker",
-  "smoking_ever" = "Smoking Status: Ever smoker",
-  "smoking_current" = "Smoking Status: Current smoker",
-  "sex_female" = "Sex: Female",
-  "ethnicity_white" = "Ethnicity: White",
-  "ethnicity_other" = "Ethnicity: Other",
-  "ethnicity_mixed" = "Ethnicity: Mixed",
-  "ethnicity_black" = "Ethnicity: Black",
-  "ethnicity_asian" = "Ethnicity: Asian",
-  "carehome" = "Care home residence",
-  "age_80" = "Age: 80-110 years",
-  "age_75_79" = "Age: 75-79 years",
-  "age_65_74" = "Age: 65-74 years",
-  "age_0_4" = "Age: Under 5 years"
+  "age_0_4" = "Age: Under 5 years (%)",
+  "age_65_74" = "Age: 65-74 years (%)",
+  "age_75_79" = "Age: 75-79 years (%)",
+  "age_80" = "Age: 80-110 years (%)",
+  "sex_female" = "Sex: Female (%)",
+  "ethnicity_white" = "Ethnicity: White (%)",
+  "ethnicity_asian" = "Ethnicity: Asian (%)",
+  "ethnicity_black" = "Ethnicity: Black (%)",
+  "ethnicity_mixed" = "Ethnicity: Mixed (%)",
+  "ethnicity_other" = "Ethnicity: Other (%)",
+  "imd_1_most" = "Deprivation: IMD 1 (most deprived) (%)",
+  "imd_5_least" = "Deprivation: IMD 5 (least deprived) (%)",
+  "smoking_never" = "Smoking Status: Never smoker (%)",
+  "smoking_ever" = "Smoking Status: Ever smoker (%)",
+  "smoking_current" = "Smoking Status: Current smoker (%)",
+  "obesity" = "Obesity (%)",
+  "carehome" = "Care home residence (%)"
 )
 
 time_periods <- c(
@@ -98,14 +161,14 @@ outcome_raw <- c(
 )
 
 outcome_titles <- c(
-  "Admitted patient care (all)",
-  "Planned admitted patient care (all)",
-  "Unplanned admitted patient care (all)",
-  "Admitted patient care (ACSC admissions)",
-  "Planned admitted patient care (ACSC admissions)",
-  "Unplanned admitted patient care (ACSC admissions)",
-  "Emergency care (all)",
-  "Emergency care (ACSC attendances)"
+  "Weekly hospital admissions",
+  "Weekly planned hospital admissions",
+  "Weekly unplanned hospital admissions",
+  "Weekly ACSC-related hospital admissions",
+  "Weekly ACSC-related planned hospital admissions",
+  "Weekly ACSC-related unplanned hospital admissions",
+  "Weekly A&E attendances",
+  "Weekly ACSC-related A&E attendences"
 )
 
 sub_groups <- c(
@@ -136,7 +199,7 @@ filters <- function() {
     virtualSelectInput(
       "selected_exposures",
       "Select exposures:",
-      choices = exposures,
+      choices = exposures_input,
       selected = exposures[["Patient case-mix"]],
       multiple = TRUE,
       search = TRUE,
