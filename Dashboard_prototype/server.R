@@ -103,7 +103,7 @@ plot_graph <- function(outcome_num,
       axis.title.y = if ((page_num != 3 && (outcome_num == 3 || outcome_num == 7))
       || page_num == 3 && outcome_num == 3) {
         element_text(
-          size = 23,
+          size = 25,
           family = "Sora",
           hjust = 1.2
         )
@@ -113,7 +113,7 @@ plot_graph <- function(outcome_num,
       axis.title.x = if (page_num != 3 && (outcome_num == 3 || outcome_num == 7)
       || (page_num == 3 && outcome_num == 4)) {
         element_text(
-          size = 23,
+          size = 25,
           hjust = 1.2,
           family = "Sora"
         )
@@ -139,7 +139,7 @@ plot_graph <- function(outcome_num,
       panel.grid.minor = element_blank(),
       panel.grid.major.x = element_blank(),
       #panel.grid = element_blank(),
-      legend.position = if ( (page_num != 3 && outcome_num != 2 && outcome_num != 6) 
+      legend.position = if ((page_num != 3 && outcome_num != 2 && outcome_num != 6) 
       || page_num == 3 && outcome_num != 5) {
         "none"
       },

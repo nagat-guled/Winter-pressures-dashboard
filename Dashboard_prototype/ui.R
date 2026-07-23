@@ -35,51 +35,51 @@ ui <- page_navbar(
     h2("All"),
     fluidRow(
       column(
-      3,
-      filters(1)
+        3,
+        filters(1)
       ),
       column(
-      9,
-    card(
-      girafeOutput(
-        "plot1"
-      )
-    ),
+        9,
+        card(
+          girafeOutput(
+            "plot1"
+          )
+        ),
       )
     )
   ),
   nav_panel(
     h2("ACSC-related"),
     fluidRow(
-    column(
-      3,
-    filters(2)
-    ),
-    column(
-      9,
-    card(
-      girafeOutput(
-        "plot2"
+      column(
+        3,
+        filters(2)
+      ),
+      column(
+        9,
+        card(
+          girafeOutput(
+            "plot2"
+          )
+        ),
       )
-    ),
-    )
     )
   ),
    nav_panel(
     h2("Fully adjusted"),
     fluidRow(
-    column(
-      3,
-    filters(3)
-    ),
-    column(
-      9,
-    card(
-      girafeOutput(
-        "plot3"
+      column(
+        3,
+        filters(3)
+      ),
+      column(
+        9,
+        card(
+          girafeOutput(
+            "plot3"
+          )
+        ),
       )
-    ),
-    )
     )
   ),
 )
