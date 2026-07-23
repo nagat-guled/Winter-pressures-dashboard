@@ -162,13 +162,13 @@ outcome_raw <- c(
 
 outcome_titles <- c(
   "Weekly hospital admissions",
+  "Weekly A&E attendances",
   "Weekly planned hospital admissions",
   "Weekly unplanned hospital admissions",
   "Weekly ACSC-related hospital admissions",
+  "Weekly ACSC-related A&E attendences",
   "Weekly ACSC-related planned hospital admissions",
-  "Weekly ACSC-related unplanned hospital admissions",
-  "Weekly A&E attendances",
-  "Weekly ACSC-related A&E attendences"
+  "Weekly ACSC-related unplanned hospital admissions"
 )
 
 sub_groups <- c(
@@ -193,11 +193,10 @@ probdists <- c(
 
 # create panel containing widgets for user selection
 
-filters <- function() {
-  absolutePanel(
-    id = "panel",
+filters <- function(id) {
+  card(
     virtualSelectInput(
-      "selected_exposures",
+      paste0("selected_exposures", id),
       "Select exposures:",
       choices = exposures_input,
       selected = exposures[["Patient case-mix"]],
@@ -206,13 +205,13 @@ filters <- function() {
       dropboxWrapper = "body"
     ),
     selectInput(
-      "subgroup",
+      paste0("subgroup", id),
       "Select population sub-group:",
       choices = unname(sub_groups),
       selected = sub_groups[[1]]
     ),
     selectInput(
-      "model",
+      paste0("model", id),
       label = tagList("Select model:",
         tooltip(
           icon("circle-info", style = "color: #a6192e"),
@@ -227,7 +226,7 @@ filters <- function() {
       style = "display: flex;",
       tags$div(
         prettyRadioButtons(
-          "probdist",
+          paste0("probdist", id),
           label = "Select probability distribution:",
           choices = unname(probdists),
           outline = TRUE,
@@ -238,15 +237,10 @@ filters <- function() {
       ),
     ),
     checkboxGroupButtons(
-      "time",
+      paste0("time", id),
       "Select time periods:",
       choices = time_periods,
       selected = time_periods[c(1, 4)]
     ),
-    draggable = TRUE,
-    width = "550px",
-    height = "400px",
-    style = "background-color: white;",
-    left = "30%"
   )
 }

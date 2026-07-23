@@ -31,12 +31,37 @@ ui <- page_navbar(
     h2("About")
   ),
   nav_panel(
-    h2("Dashboard"),
+    h2("All"),
+    fluidRow(
+      column(
+      4,
+      filters(1)
+      ),
+      column(
+        8,
     card(
       girafeOutput(
-        "plot"
+        "plot1"
       )
     ),
-    filters()
+      )
+    )
+  ),
+  nav_panel(
+    h2("ACSC-related"),
+    fluidRow(
+    column(
+      3,
+    filters(2)
+    ),
+    column(
+      9,
+    card(
+      girafeOutput(
+        "plot2"
+      )
+    ),
+    )
+    )
   ),
 )

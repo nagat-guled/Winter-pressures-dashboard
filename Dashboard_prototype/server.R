@@ -68,7 +68,7 @@ plot_graph <- function(outcome_num,
       alpha = 0.7
     ),
     linewidth = 1,
-    width = 0.05,
+    width = 0.01,
     orientation = "y",
     position = position_dodge(width = 0.8),
     show.legend = FALSE
@@ -89,7 +89,7 @@ plot_graph <- function(outcome_num,
     breaks = order_exposures,
     labels = stringr::str_wrap(exposure_labels[order_exposures], width = 15)
   ) +
-  xlim(0.6, 1.5) +
+  xlim(0.6, 1.6) +
   theme_minimal() +
     theme(
       plot.title = element_text(
@@ -99,21 +99,25 @@ plot_graph <- function(outcome_num,
         colour = uob_red,
         face = "bold"
       ),
-      axis.title.y = if (outcome_num == 4) {
-        element_text(size = 35, family = "Open Sans")
-      } else {
-        element_blank()
-      },
-      axis.title.x = if (outcome_num == 8) {
+      axis.title.y = if (outcome_num == 3 || outcome_num == 7) {
         element_text(
-          size = 35,
-          hjust = -1,
-          family = "Open Sans"
+          size = 23,
+          family = "Sora",
+          hjust = 1.2
         )
       } else {
         element_blank()
       },
-      axis.text.y = if (outcome_num %in% c(1, 4, 7)) {
+      axis.title.x = if (outcome_num == 3 || outcome_num == 7) {
+        element_text(
+          size = 23,
+          hjust = 1.2,
+          family = "Sora"
+        )
+      } else {
+        element_blank()
+      },
+      axis.text.y = if (outcome_num %in% c(1, 3, 5, 7)) {
         element_text(size = 16, family = "Open Sans",
         lineheight = 0.7)
       } else {
@@ -127,15 +131,15 @@ plot_graph <- function(outcome_num,
       panel.border = element_rect(colour = "gray50", linewidth = 0.4),
       axis.line.y = element_blank(),
       axis.line.x = element_line(),
-      panel.grid.major = element_line(colour = "gray50", size = 0.6),
+      panel.grid.major = element_line(colour = "gray50", linewidth = 0.6),
       panel.grid.minor = element_blank(),
       panel.grid.major.x = element_blank(),
       #panel.grid = element_blank(),
-      legend.position = if (outcome_num != 8) {
+      legend.position = if (outcome_num != 2 && outcome_num != 6) {
         "none"
       },
-      legend.text = if (outcome_num == 8) {
-        element_text(size = 25)
+      legend.text = if (outcome_num == 2 || outcome_num == 6) {
+        element_text(size = 18)
       } else {
         element_blank()
       }
@@ -151,31 +155,11 @@ plot_graph <- function(outcome_num,
     )
 }
 
-server <- function(input, output) {
-  output$plot <- renderGirafe({
-    plots <- list()
-    for (x in 1:8){
-      p <- plot_graph(
-        x,
-        input$subgroup,
-        input$selected_exposures,
-        input$model,
-        input$probdist,
-        input$time
-      )
-
-      plots[[x]] <- p
-    }
-    # design plot layout for all 8 outcomes
-    bottom_row <- (plot_spacer() | plots[[7]] | plots[[8]] | plot_spacer()) +
-      plot_layout(widths = c(0.5, 4, 4, 1))
-    combined_plot <- (plots[[1]] | plots[[2]] | plots[[3]]) /
-      (plots[[4]] | plots[[5]] | plots[[6]]) / bottom_row
-
-    girafe(
-      ggobj = combined_plot,
-      width_svg = 38,
-      height_svg = 58,
+make_girafe <- function(comb_plot) {
+   girafe(
+      ggobj = comb_plot,
+      width_svg = 26,
+      height_svg = 38,
       options = list(
         opts_sizing(rescale = TRUE, width = 1),
         opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
@@ -193,10 +177,55 @@ server <- function(input, output) {
         ),
         opts_zoom(min = 1, max = 5),
         opts_toolbar(
-          position = "bottomright",
+          position = "topright",
           hidden = c("lasso_select", "lasso_deselect")
         )
       )
     )
+}
+
+server <- function(id, input, output) {
+  output$plot1 <- renderGirafe({
+    plots <- list()
+    for (x in 1:4){
+      p1 <- plot_graph(
+        x,
+        input$subgroup1,
+        input$selected_exposures1,
+        input$model1,
+        input$probdist1,
+        input$time1
+      )
+
+      plots[[x]] <- p1
+    }
+    # design plot layout for all 8 outcomes
+    combined_plot1 <- (plots[[1]] | plots[[2]]) /
+      (plots[[3]] | plots[[4]])
+
+    make_girafe(combined_plot1)
+
   })
+
+  output$plot2 <- renderGirafe({
+    plots2 <- list()
+    for (x in 5:8){
+      p2 <- plot_graph(
+        x,
+        input$subgroup2,
+        input$selected_exposures2,
+        input$model2,
+        input$probdist2,
+        input$time2
+      )
+
+      plots2[[x]] <- p2
+    }
+    # design plot layout for all 8 outcomes
+    combined_plot2 <- (plots2[[5]] | plots2[[6]]) /
+      (plots2[[7]] | plots2[[8]])
+
+    make_girafe(combined_plot2)
+  })
+
 }
