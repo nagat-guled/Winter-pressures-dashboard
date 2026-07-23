@@ -6,7 +6,8 @@ plot_graph <- function(outcome_num,
   exp_selec,
   model_selec,
   prob_selec,
-  time_selec
+  time_selec,
+  page_num
 ) {
   # filter dataset depending on user input and outcome
   df <- df %>%
@@ -82,7 +83,7 @@ plot_graph <- function(outcome_num,
   labs(
     title = outcome_titles[outcome_num],
     x = "Incidence Rate Ratio (IRR)",
-    y = "General Practice Characteristics"
+    y = "General Practice Characteristics (MAD)"
   ) +
   scale_y_discrete( 
     limits = order_exposures,
@@ -99,7 +100,8 @@ plot_graph <- function(outcome_num,
         colour = uob_red,
         face = "bold"
       ),
-      axis.title.y = if (outcome_num == 3 || outcome_num == 7) {
+      axis.title.y = if ((page_num != 3 && (outcome_num == 3 || outcome_num == 7))
+      || page_num == 3 && outcome_num == 3) {
         element_text(
           size = 23,
           family = "Sora",
@@ -108,7 +110,8 @@ plot_graph <- function(outcome_num,
       } else {
         element_blank()
       },
-      axis.title.x = if (outcome_num == 3 || outcome_num == 7) {
+      axis.title.x = if (page_num != 3 && (outcome_num == 3 || outcome_num == 7)
+      || (page_num == 3 && outcome_num == 4)) {
         element_text(
           size = 23,
           hjust = 1.2,
@@ -117,7 +120,8 @@ plot_graph <- function(outcome_num,
       } else {
         element_blank()
       },
-      axis.text.y = if (outcome_num %in% c(1, 3, 5, 7)) {
+      axis.text.y = if ((page_num != 3 && outcome_num %in% c(1, 3, 5, 7))
+      || page_num == 3 && outcome_num %in% c(1:4)) {
         element_text(size = 16, family = "Open Sans",
         lineheight = 0.7)
       } else {
@@ -135,11 +139,13 @@ plot_graph <- function(outcome_num,
       panel.grid.minor = element_blank(),
       panel.grid.major.x = element_blank(),
       #panel.grid = element_blank(),
-      legend.position = if (outcome_num != 2 && outcome_num != 6) {
+      legend.position = if ( (page_num != 3 && outcome_num != 2 && outcome_num != 6) 
+      || page_num == 3 && outcome_num != 5) {
         "none"
       },
-      legend.text = if (outcome_num == 2 || outcome_num == 6) {
-        element_text(size = 18)
+      legend.text = if ((page_num != 3 && outcome_num == 2 || outcome_num == 6)
+      || page_num == 3 && outcome_num == 5) {
+        element_text(size = 22)
       } else {
         element_blank()
       }
@@ -155,11 +161,19 @@ plot_graph <- function(outcome_num,
     )
 }
 
-make_girafe <- function(comb_plot) {
+make_girafe <- function(comb_plot, id) {
+  if (id == 3) {
+      shinyjs::hide("model3")
+      shinyjs::hide("selected_exposures3")
+  }
    girafe(
       ggobj = comb_plot,
       width_svg = 26,
-      height_svg = 38,
+      height_svg = if (id == 3){
+       80
+      } else {
+      38
+      },
       options = list(
         opts_sizing(rescale = TRUE, width = 1),
         opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
@@ -194,7 +208,8 @@ server <- function(id, input, output) {
         input$selected_exposures1,
         input$model1,
         input$probdist1,
-        input$time1
+        input$time1,
+        1
       )
 
       plots[[x]] <- p1
@@ -203,7 +218,7 @@ server <- function(id, input, output) {
     combined_plot1 <- (plots[[1]] | plots[[2]]) /
       (plots[[3]] | plots[[4]])
 
-    make_girafe(combined_plot1)
+    make_girafe(combined_plot1, 1)
 
   })
 
@@ -216,7 +231,8 @@ server <- function(id, input, output) {
         input$selected_exposures2,
         input$model2,
         input$probdist2,
-        input$time2
+        input$time2,
+        2
       )
 
       plots2[[x]] <- p2
@@ -225,7 +241,30 @@ server <- function(id, input, output) {
     combined_plot2 <- (plots2[[5]] | plots2[[6]]) /
       (plots2[[7]] | plots2[[8]])
 
-    make_girafe(combined_plot2)
+    make_girafe(combined_plot2, 2)
+  })
+
+  output$plot3 <- renderGirafe({
+    plots3 <- list()
+    for (x in 1:8){
+      p3 <- plot_graph(
+        x,
+        input$subgroup3,
+        input$selected_exposures3,
+        input$model3,
+        input$probdist3,
+        input$time3,
+        3
+      )
+
+      plots3[[x]] <- p3
+    }
+    # design plot layout for all 8 outcomes
+    combined_plot3 <- (plots3[[1]] | plots3[[5]]) /
+      (plots3[[2]] | plots3[[6]]) / (plots3[[3]] | plots3[[7]]) /
+      (plots3[[4]] | plots3[[8]])
+
+    make_girafe(combined_plot3, 3)
   })
 
 }

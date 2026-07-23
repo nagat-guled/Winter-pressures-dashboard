@@ -1,6 +1,7 @@
 uob_red <- "#a6192e"
 
 ui <- page_navbar(
+  useShinyjs(),
   fillable = FALSE,
   # create custom UOB style theme
   tags$head(
@@ -34,11 +35,11 @@ ui <- page_navbar(
     h2("All"),
     fluidRow(
       column(
-      4,
+      3,
       filters(1)
       ),
       column(
-        8,
+      9,
     card(
       girafeOutput(
         "plot1"
@@ -59,6 +60,23 @@ ui <- page_navbar(
     card(
       girafeOutput(
         "plot2"
+      )
+    ),
+    )
+    )
+  ),
+   nav_panel(
+    h2("Fully adjusted"),
+    fluidRow(
+    column(
+      3,
+    filters(3)
+    ),
+    column(
+      9,
+    card(
+      girafeOutput(
+        "plot3"
       )
     ),
     )

@@ -7,6 +7,7 @@ library(ggiraph)
 library(shinyWidgets)
 library(tidyverse)
 library(stringr)
+library(shinyjs)
 
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
@@ -199,7 +200,11 @@ filters <- function(id) {
       paste0("selected_exposures", id),
       "Select exposures:",
       choices = exposures_input,
-      selected = exposures[["Patient case-mix"]],
+      selected = if (id == 3) {
+        unlist(exposures_input, use.names = FALSE)
+      } else {
+        exposures_input[["Patient case-mix"]]
+      },
       multiple = TRUE,
       search = TRUE,
       dropboxWrapper = "body"
@@ -219,8 +224,16 @@ filters <- function(id) {
           placement = "right"
         )
       ),
-      choices = unname(models),
-      selected = models[[2]]
+      choices = if(id != 3) {
+        unname(models[1:2])
+      } else{
+        unname(models)
+      },
+      selected = if(id != 3) {
+        models[[2]]
+      } else {
+        models[[3]]
+      }
     ),
     tags$div(
       style = "display: flex;",
