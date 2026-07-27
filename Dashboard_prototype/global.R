@@ -8,6 +8,8 @@ library(shinyWidgets)
 library(tidyverse)
 library(stringr)
 library(shinyjs)
+library(ggtext)
+library(gridtext)
 
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
@@ -183,7 +185,7 @@ sub_groups <- c(
 
 models <- c(
   "mdl_crude" = "Crude",
-  "mdl_age_sex" = "Age-sex adjusted",
+  "mdl_age_sex" = "Age- and sex-adjusted",
   "mdl_max_adj" = "Fully adjusted"
 )
 
@@ -217,10 +219,10 @@ filters <- function(id) {
     ),
     selectInput(
       paste0("model", id),
-      label = tagList("Select model:",
+      label = tagList("Select adjustment model:",
         tooltip(
           icon("circle-info", style = "color: #a6192e"),
-          "Choose between no adjustment, age/sex adjusted and fully adjusted results.",
+          "Choose between no adjustment and age- and sex-adjusted.",
           placement = "right"
         )
       ),

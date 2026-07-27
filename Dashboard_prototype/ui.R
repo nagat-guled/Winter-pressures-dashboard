@@ -32,7 +32,7 @@ ui <- page_navbar(
     h2("About")
   ),
   nav_panel(
-    h2("All"),
+    h2("All-cause hospital use"),
     fluidRow(
       column(
         3,
@@ -49,7 +49,7 @@ ui <- page_navbar(
     )
   ),
   nav_panel(
-    h2("ACSC-related"),
+    h2("ACSC-related hospital use"),
     fluidRow(
       column(
         3,
@@ -66,7 +66,7 @@ ui <- page_navbar(
     )
   ),
    nav_panel(
-    h2("Fully adjusted"),
+    h2("Hospital use estimator"),
     fluidRow(
       column(
         3,

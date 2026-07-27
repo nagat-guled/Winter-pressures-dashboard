@@ -42,7 +42,7 @@ plot_graph <- function(outcome_num,
   order_exposures <- rev(names(exposure_labels)[
   names(exposure_labels) %in% unlist(exposure_groups[exp_selec], use.names = FALSE)])
 
-  ggplot(
+ p <- ggplot(
     df,
     aes(
       x = irr,
@@ -123,7 +123,7 @@ plot_graph <- function(outcome_num,
       axis.text.y = if ((page_num != 3 && outcome_num %in% c(1, 3, 5, 7))
       || page_num == 3 && outcome_num %in% c(1:4)) {
         element_text(size = 16, family = "Open Sans",
-        lineheight = 0.7)
+        lineheight = 1)
       } else {
         element_blank()
       },
@@ -135,10 +135,9 @@ plot_graph <- function(outcome_num,
       panel.border = element_rect(colour = "gray50", linewidth = 0.4),
       axis.line.y = element_blank(),
       axis.line.x = element_line(),
-      panel.grid.major = element_line(colour = "gray50", linewidth = 0.6),
+      panel.grid.major = element_line(colour = "gray85", linewidth = 0.6),
       panel.grid.minor = element_blank(),
-      panel.grid.major.x = element_blank(),
-      #panel.grid = element_blank(),
+      panel.grid.major.x = element_line(colour = "gray96", linewidth = 0.6),
       legend.position = if ((page_num != 3 && outcome_num != 2 && outcome_num != 6) 
       || page_num == 3 && outcome_num != 5) {
         "none"
@@ -159,20 +158,26 @@ plot_graph <- function(outcome_num,
       breaks = c("precovid", "postcovid1", "postcovid2", "postcovid3"),
       labels = unname(time_periods)
     )
+    list(plot = p, order_exposures = order_exposures)
 }
 
-make_girafe <- function(comb_plot, id) {
+make_girafe <- function(comb_plot, id, list_exposures) {
   if (id == 3) {
       shinyjs::hide("model3")
       shinyjs::hide("selected_exposures3")
+  }
+  if(length(list_exposures) < 8){
+    min_length <- 8
+  } else {
+    min_length <- length(list_exposures)
   }
    girafe(
       ggobj = comb_plot,
       width_svg = 26,
       height_svg = if (id == 3){
-       80
+       min_length * 4
       } else {
-      38
+      min_length * 2
       },
       options = list(
         opts_sizing(rescale = TRUE, width = 1),
@@ -199,6 +204,7 @@ make_girafe <- function(comb_plot, id) {
 }
 
 server <- function(id, input, output) {
+
   output$plot1 <- renderGirafe({
     plots <- list()
     for (x in 1:4){
@@ -212,13 +218,14 @@ server <- function(id, input, output) {
         1
       )
 
-      plots[[x]] <- p1
+      plots[[x]] <- p1$plot
+      order_exposures <- p1$order_exposures
     }
     # design plot layout for all 8 outcomes
     combined_plot1 <- (plots[[1]] | plots[[2]]) /
       (plots[[3]] | plots[[4]])
 
-    make_girafe(combined_plot1, 1)
+    make_girafe(combined_plot1, 1, order_exposures)
 
   })
 
@@ -235,13 +242,14 @@ server <- function(id, input, output) {
         2
       )
 
-      plots2[[x]] <- p2
+      plots2[[x]] <- p2$plot
+      order_exposures <- p2$order_exposures
     }
     # design plot layout for all 8 outcomes
     combined_plot2 <- (plots2[[5]] | plots2[[6]]) /
       (plots2[[7]] | plots2[[8]])
 
-    make_girafe(combined_plot2, 2)
+    make_girafe(combined_plot2, 2, order_exposures)
   })
 
   output$plot3 <- renderGirafe({
@@ -257,14 +265,15 @@ server <- function(id, input, output) {
         3
       )
 
-      plots3[[x]] <- p3
+      plots3[[x]] <- p3$plot
+      order_exposures <- p3$order_exposures
     }
     # design plot layout for all 8 outcomes
     combined_plot3 <- (plots3[[1]] | plots3[[5]]) /
       (plots3[[2]] | plots3[[6]]) / (plots3[[3]] | plots3[[7]]) /
       (plots3[[4]] | plots3[[8]])
-
-    make_girafe(combined_plot3, 3)
+      
+    make_girafe(combined_plot3, 3, order_exposures)
   })
 
 }
