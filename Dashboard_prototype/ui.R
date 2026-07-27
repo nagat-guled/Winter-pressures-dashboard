@@ -29,7 +29,10 @@ ui <- page_navbar(
   ),
   # create navigation bar containing tabs
   nav_panel(
-    h2("About")
+    h2("About"),
+    card(
+
+    )
   ),
   nav_panel(
     h2("All-cause hospital use"),
@@ -82,4 +85,26 @@ ui <- page_navbar(
       )
     )
   ),
+  # tags$footer(
+  #   tags$div(
+  #     class = "footer-link",
+  #     tags$img(src = "favicon.png", alt = "UOB logo"),
+  #     tags$img(src = "hdr-uk-logo.jpg", alt = "HDR UK logo")
+  #   )
+  # ),
+  # tags$style(HTML("
+  # .footer-link {
+  #     padding: 8px !important;
+  #     background-color: var(--UOB_red) !important;
+  #     text-align: center;
+  #     font-family: 'Sora';
+  #     font-weight: 600;
+  #     font-size: 28;
+  #     color: white;
+  #    }
+  # .footer-link img {
+  #   height: 50px;
+  #   width: auto;
+  #   }
+  #    ")),
 )
