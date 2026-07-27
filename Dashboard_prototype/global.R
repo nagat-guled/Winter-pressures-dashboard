@@ -50,6 +50,26 @@ exposure_groups <- list(
   "Care home residence" = "carehome"
 )
 
+case_mix <- c(
+  "age_0_4" = "1.1% in the proportion of patients aged under 5 years",
+  "age_65_74" = "3.4% in the proportion of patients aged 65-74 years",
+  "age_75_79" = "1.7% in the proportion of patients aged 75 to 79 years",
+  "age_80" = "2.2% in the proportion of patients aged over 80 years",
+  "sex_female" = "1.2% in the proportion of female patients",
+  "ethnicity_white" = "10.9% in the proportion of white patients",
+  "ethnicity_asian" = "3% in the proportion of asian patients",
+  "ethnicity_black" = "1.4% in the proportion of black patients",
+  "ethnicity_mixed" = "1.1% in the proportion of mixed patients",
+  "ethnicity_other" = "1.1% in the proportion of patients of other ethnicities",
+  "imd_1_most" = "15.1% in the proporton of most deprived patients",
+  "imd_5_least" = "11.3% in the proportion of least deprived patients", 
+  "smoking_never" = "5.6% in the proportion of patients who have never smoked",
+  "smoking_ever" = "5% in the proportion of patients who have ever smoked",
+  "smoking_current" = "4% in the proportion of patients who currently smoke",
+  "obesity" = "4.2% in the proportion of obese patients",
+  "carehome" = "0.4% in the proportion of patients who are care home residents"
+)
+
 exposures_input <- list(
   "Practice characteristics" = c(
     "Region",
@@ -163,6 +183,18 @@ outcome_raw <- c(
   "ec_acsc_any_"
 )
 
+outcome_interpretation <- c(
+  "apc_" = "weekly admitted patient care",
+  "apc_plan_" = "weekly planned admitted patient care",
+  "apc_unpl_" = "weekly unplanned admitted patient care",
+  "apc_acsc_any_" = "weekly ACSC-related admitted patient care",
+  "apc_plan_acsc_any_" = "weekly ACSC-related planned admitted patient care",
+  "apc_unpl_acsc_any_" = "weekly ACSC-related unplanned admitted patient care",
+  "ec_" = "weekly A&E attendances",
+  "ec_acsc_any_" = "weekly ACSC-related admitted patient care"
+)
+
+
 outcome_titles <- c(
   "Weekly hospital admissions",
   "Weekly A&E attendances",
@@ -193,6 +225,14 @@ probdists <- c(
   "negbin" = "Negative binomial",
   "poisson" = "Poisson"
 )
+
+cohort_interp <- c(
+  "precovid" = "before COVID-19",
+  "postcovid1" = "post-lockdown 1",
+  "postcovid2" = "post-lockdown 2",
+  "postcovid3" = "post-lockdown 3"
+)
+
 
 # create panel containing widgets for user selection
 
@@ -254,8 +294,9 @@ filters <- function(id) {
     checkboxGroupButtons(
       paste0("time", id),
       "Select time periods:",
-      choices = time_periods,
-      selected = time_periods[c(1, 4)]
+      choices = unname(time_periods),
+      selected = unname(time_periods[c(1, 4)]),
+      size = "sm"
     ),
   )
 }

@@ -26,12 +26,111 @@ plot_graph <- function(outcome_num,
         substring(term, nchar("exp_prop_") + 1),
         exposure
       ),
-      lci = if_else(grepl("ref", term), 1, lci),
+      lci = if_else(grepl("ref", term), 1, lci), 
       uci = if_else(grepl("ref", term), 1, uci)
     ) %>%
     filter(
       exposure %in% unlist(exposure_groups[exp_selec], use.names = FALSE) &
         cohort %in% names(time_periods)[match(time_selec, time_periods)]
+    ) %>%
+    mutate(
+      # build interpretation sentence depending on characteristics of point
+      interp = paste0(""),
+
+      interp = ifelse(exposure %in% exposure_groups$Region,
+      paste0("Compared with practices in the East region, practices in the ", exposure, " region had a "),
+      interp),
+
+      interp = ifelse(exposure %in% exposure_groups$Rurality,
+      paste0("Compared with practices in urban conurbations, practices in ", str_to_lower(exposure), " areas had a "),
+      interp),
+      
+      interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)
+       & irr > 1,
+      paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
+      "% higher ", outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+
+      interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)
+       & irr < 1, paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
+      "% lower ", outcome_interpretation[str_remove(outcome, analysis)], 
+      " ",
+      cohort_interp[cohort]),
+       interp),
+
+      interp = ifelse(exposure == "list_size",
+      paste0("An increase in 4830 in practice list size was associated with a "),
+      interp),
+
+      interp = ifelse(exposure == "list_size"
+      & irr > 1,
+      paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
+      " % increase in ",
+      outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+
+      interp = ifelse(exposure == "list_size"
+      & irr < 1,
+      paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
+      " % decrease in ",
+      outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+
+      interp = ifelse(exposure == "cons_mean",
+      paste0("An increase of 114 per 1000 patients in monthly consultations was associated with a "),
+      interp),
+
+      interp = ifelse(exposure == "cons_mean"
+      & irr > 1,
+      paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
+      " % increase in ",
+      outcome_interpretation[str_remove(outcome, analysis)],
+      " ", cohort_interp[cohort]),
+      interp),
+
+      interp = ifelse(exposure == "cons_mean"
+      & irr < 1,
+      paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
+      " % decrease in ",
+      outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+      
+      interp = ifelse(exposure %in% names(case_mix),
+      paste0("An increase of ", case_mix[exposure],
+      " in the practice was associated with a "),
+      interp),
+
+      interp = ifelse(exposure %in% names(case_mix)
+      & irr > 1,
+      paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
+      "% increase in ", outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+
+      interp = ifelse(exposure %in% names(case_mix)
+      & irr < 1,
+      paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
+      "% decrease in ",
+      outcome_interpretation[str_remove(outcome, analysis)],
+      " ",
+      cohort_interp[cohort]),
+      interp),
+
+      interp = str_wrap(interp, width = 40),
+
+      interp = ifelse(exposure == "East (ref)"
+      | exposure == "Urban conurbation (ref)",
+      paste0(""),
+      interp)
     )
   # update error messages
   validate(
@@ -49,11 +148,7 @@ plot_graph <- function(outcome_num,
       y = exposure,
       colour = cohort,
       tooltip = paste(
-        time_periods[cohort], "\n",
-        exposure_labels[exposure], "\n",
-        "IRR: ", format(round(irr, 2), nsmall = 2), "\n",
-        " LCI: ", format(round(lci, 2), nsmall = 2), "\n",
-        " UCI: ", format(round(uci, 2), nsmall = 2)
+        interp
       ),
       data_id = paste(cohort, exposure, sep = "_")
     )
