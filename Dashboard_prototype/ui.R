@@ -1,5 +1,3 @@
-uob_red <- "#a6192e"
-
 ui <- page_navbar(
   useShinyjs(),
   fillable = FALSE,
