@@ -61,5 +61,6 @@ filters <- function(id) {
       selected = unname(time_periods[c(1, 4)]),
       size = "sm"
     ),
+    fill = TRUE,
   )
 }

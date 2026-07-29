@@ -32,14 +32,14 @@ plot_graph <- function(outcome_num,
     ) %>%
     mutate(
       # build interpretation sentence depending on characteristics of point
-      interp = paste0(""),
+      interp = paste0("<b>Interpretation</b>: "),
 
       interp = ifelse(exposure %in% exposure_groups$Region,
-      paste0("Compared with practices in the East region, practices in the ", exposure, " region had a "),
+      paste0(interp, "Compared with practices in the East region, practices in the ", exposure, " region had a "),
       interp),
 
       interp = ifelse(exposure %in% exposure_groups$Rurality,
-      paste0("Compared with practices in urban conurbations, practices in ", str_to_lower(exposure), " areas had a "),
+      paste0(interp, "Compared with practices in urban conurbations, practices in ", str_to_lower(exposure), " areas had a "),
       interp),
       
       interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)
@@ -58,7 +58,7 @@ plot_graph <- function(outcome_num,
        interp),
 
       interp = ifelse(exposure == "list_size",
-      paste0("An increase in 4830 in practice list size was associated with a "),
+      paste0(interp, "An increase in 4830 in practice list size was associated with a "),
       interp),
 
       interp = ifelse(exposure == "list_size"
@@ -80,7 +80,7 @@ plot_graph <- function(outcome_num,
       interp),
 
       interp = ifelse(exposure == "cons_mean",
-      paste0("An increase of 114 per 1000 patients in monthly consultations was associated with a "),
+      paste0(interp, "An increase of 114 per 1000 patients in monthly consultations was associated with a "),
       interp),
 
       interp = ifelse(exposure == "cons_mean"
@@ -101,7 +101,7 @@ plot_graph <- function(outcome_num,
       interp),
       
       interp = ifelse(exposure %in% names(case_mix),
-      paste0("An increase of ", case_mix[exposure],
+      paste0(interp, "An increase of ", case_mix[exposure],
       " in the practice was associated with a "),
       interp),
 
@@ -137,6 +137,15 @@ plot_graph <- function(outcome_num,
   # grab axis names in correct order
   order_exposures <- rev(names(exposure_labels)[
   names(exposure_labels) %in% unlist(exposure_groups[exp_selec], use.names = FALSE)])
+
+  # y_title_position <- 0
+  # if(length(order_exposures) < 10){
+  #   y_title_position <- 2.5
+  # } else if (length(order_exposures) < 20 & length(order_exposures) >= 10) {
+  #   y_title_position <- 2
+  # } esle{
+  #   y_title_position <- 1.2
+  # }
 
  p <- ggplot(
     df,
@@ -175,7 +184,7 @@ plot_graph <- function(outcome_num,
   labs(
     title = outcome_titles[outcome_num],
     x = "Incidence Rate Ratio (IRR)",
-    y = "General Practice Characteristics (MAD)"
+    y = "General Practice Characteristics"
   ) +
   scale_y_discrete( 
     limits = order_exposures,

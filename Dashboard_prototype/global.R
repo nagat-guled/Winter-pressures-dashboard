@@ -52,6 +52,23 @@ exposure_groups <- list(
   "Care home residence" = "carehome"
 )
 
+practice_characteristics <- c(
+  "East (ref)",
+  "East Midlands",
+  "London",
+  "North East",
+  "North West",
+  "South East",
+  "South West",
+  "West Midlands",
+  "Yorkshire and The Humber",
+   "Urban conurbation (ref)",
+    "Urban town",
+   "Rural",
+  "list_size",
+  "cons_mean"
+)
+
 case_mix <- c(
   "age_0_4" = "1.1% in the proportion of patients aged under 5 years",
   "age_65_74" = "3.4% in the proportion of patients aged 65-74 years",
@@ -136,9 +153,9 @@ exposure_labels <- c(
 
 time_periods <- c(
   "precovid" = "Pre-Covid",
-  "postcovid1" = "Post-Lockdown 1",
-  "postcovid2" = "Post-Lockdown 2",
-  "postcovid3" = "Post-Lockdown 3"
+  "postcovid1" = "2022-2023",
+  "postcovid2" = "2023-2024",
+  "postcovid3" = "2024-2025"
 )
 exposures <- list(
   "Practice characteristics" = c(
@@ -230,7 +247,7 @@ probdists <- c(
 
 cohort_interp <- c(
   "precovid" = "before COVID-19",
-  "postcovid1" = "post-lockdown 1",
-  "postcovid2" = "post-lockdown 2",
-  "postcovid3" = "post-lockdown 3"
+  "postcovid1" = "in 2022-2023",
+  "postcovid2" = "in 2023-2024",
+  "postcovid3" = "in 2024-2025"
 )

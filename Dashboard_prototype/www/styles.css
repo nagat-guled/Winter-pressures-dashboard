@@ -6,12 +6,12 @@
       font-family: 'Open Sans';
       font-size: 14px;
     }
-    
+
     h1 {
       font-family: 'Sora';
       font-weight: 600;
       color: var(--UOB_red);
-      font-size: 26px;
+      font-size: clamp(18px, 1.6vw, 22px) !important;
       position: relative;
       top: 12px;
      }
@@ -33,14 +33,27 @@
       align-items: flex-start;
      }
 
+     .navbar-brand img {
+      height: clamp(14px, 3vw, 34px) !important;
+      width: auto;
+     }
+
      .navbar {
-      padding-top: 10px;
+      padding-top: 0;
       padding-bottom: 0;
+     }
+
+     .navbar-nav {
+      flex-wrap: nowrap !important;
+      flex-direction: row !important;
      }
 
      .nav-link {
       display: flex;
       align-items: center;
+      font-family: 'Open Sans';
+      margin-top: 25px;
+      font-size: clamp(14px, 0.8vw, 20px) !important;
      }
 
      .nav-link:hover{
@@ -62,4 +75,3 @@
       z-index: 9999 !important;
      }
 
-     

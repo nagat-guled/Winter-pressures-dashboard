@@ -3,6 +3,8 @@ ui <- page_navbar(
   fillable = FALSE,
   # create custom UOB style theme
   tags$head(
+
+    
     tags$link(
       rel = "stylesheet",
       type = "text/css",
@@ -20,20 +22,20 @@ ui <- page_navbar(
     style = "display: flex; align-items: flex-end; gap: 12px;",
     img(
       src = "UoB_RGB_24.jpg",
-      width = "120px",
-      height = "34px"
+      #width = "106px",
+      #height = "30px"
     ),
     h1("Interactive Winter Pressures Dashboard")
   ),
   # create navigation bar containing tabs
   nav_panel(
-    h2("About"),
+    "About",
     card(
 
     )
   ),
   nav_panel(
-    h2("All-cause hospital use"),
+    "All-cause hospital use",
     fluidRow(
       column(
         3,
@@ -43,14 +45,15 @@ ui <- page_navbar(
         9,
         card(
           girafeOutput(
-            "plot1"
+            "plot1",
+            width = "100%"
           )
         ),
       )
     )
   ),
   nav_panel(
-    h2("ACSC-related hospital use"),
+    "ACSC-related hospital use",
     fluidRow(
       column(
         3,
@@ -60,14 +63,15 @@ ui <- page_navbar(
         9,
         card(
           girafeOutput(
-            "plot2"
+            "plot2",
+            width = "100%"
           )
         ),
       )
     )
   ),
    nav_panel(
-    h2("Hospital use estimator"),
+    "Hospital use estimator",
     fluidRow(
       column(
         3,
@@ -77,7 +81,8 @@ ui <- page_navbar(
         9,
         card(
           girafeOutput(
-            "plot3"
+            "plot3",
+            width = "100%"
           )
         ),
       )
