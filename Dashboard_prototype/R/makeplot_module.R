@@ -23,8 +23,14 @@ plot_graph <- function(outcome_num,
         substring(term, nchar("exp_prop_") + 1),
         exposure
       ),
-      lci = if_else(grepl("ref", term), 1, lci), 
-      uci = if_else(grepl("ref", term), 1, uci)
+      lci = if_else(grepl("ref", term), 1, lci),
+      uci = if_else(grepl("ref", term), 1, uci),
+
+      exposure_type = ifelse(exposure %in% practice_characteristics,
+        "Practice Characteristics",
+        "Patient Case-mix"
+      )
+
     ) %>%
     filter(
       exposure %in% unlist(exposure_groups[exp_selec], use.names = FALSE) &
@@ -129,6 +135,7 @@ plot_graph <- function(outcome_num,
       paste0(""),
       interp)
     )
+
   # update error messages
   validate(
     need(exp_selec != "", "Please select at least one exposure"),
@@ -138,14 +145,28 @@ plot_graph <- function(outcome_num,
   order_exposures <- rev(names(exposure_labels)[
   names(exposure_labels) %in% unlist(exposure_groups[exp_selec], use.names = FALSE)])
 
-  # y_title_position <- 0
-  # if(length(order_exposures) < 10){
-  #   y_title_position <- 2.5
-  # } else if (length(order_exposures) < 20 & length(order_exposures) >= 10) {
-  #   y_title_position <- 2
-  # } esle{
-  #   y_title_position <- 1.2
-  # }
+  len_pc <- length(order_exposures[order_exposures %in% practice_characteristics])
+  len_cm <- length(order_exposures[order_exposures %in% names(case_mix)])
+
+  rows_order <- c()
+  facet_labels <- c()
+  if (len_pc == 0) {
+    df <- df %>%
+    add_row(exposure_type = "Practice Characteristics", exposure = "")
+    facet_labels <- c("Practice Characteristics" = "Practice Characteristics (none selected)")
+  } 
+  if (len_cm == 0) {
+    df <- df %>%
+    add_row(exposure_type = "Patient Case-mix", exposure = "")
+    facet_labels <- c(facet_labels, "Patient Case-mix" = "Patient Case-mix (none selected)")
+  } 
+
+  df$exposure_type <- factor(
+    df$exposure_type,
+    levels = c("Practice Characteristics", "Patient Case-mix")
+  )
+
+  rows_order <- c(len_pc, len_cm)
 
  p <- ggplot(
     df,
@@ -187,11 +208,17 @@ plot_graph <- function(outcome_num,
     y = "General Practice Characteristics"
   ) +
   scale_y_discrete( 
-    limits = order_exposures,
-    breaks = order_exposures,
-    labels = stringr::str_wrap(exposure_labels[order_exposures], width = 15)
+    labels = stringr::str_wrap(exposure_labels[order_exposures], width = 18)
   ) +
   xlim(0.6, 1.6) +
+  facet_wrap2(
+    exposure_type ~ .,
+    ncol = 1,
+    scales = "free_y",
+    strip.position = "top",
+    labeller = labeller(exposure_type = facet_labels)
+  ) +
+  force_panelsizes(rows = rows_order) +
   theme_minimal() +
     theme(
       plot.title = element_text(
@@ -201,16 +228,17 @@ plot_graph <- function(outcome_num,
         colour = uob_red,
         face = "bold"
       ),
-      axis.title.y = if ((page_num != 3 && (outcome_num == 3 || outcome_num == 7))
-      || page_num == 3 && outcome_num == 3) {
-        element_text(
-          size = 25,
-          family = "Sora",
-          hjust = 1.2
-        )
-      } else {
-        element_blank()
-      },
+      # axis.title.y = if ((page_num != 3 && (outcome_num == 3 || outcome_num == 7))
+      # || page_num == 3 && outcome_num == 3) {
+      #   element_text(
+      #     size = 25,
+      #     family = "Sora",
+      #     hjust = 1.2
+      #   )
+      # } else {
+      #   element_blank()
+      # },
+      axis.title.y = element_blank(),
       axis.title.x = if (page_num != 3 && (outcome_num == 3 || outcome_num == 7)
       || (page_num == 3 && outcome_num == 4)) {
         element_text(
@@ -248,7 +276,15 @@ plot_graph <- function(outcome_num,
         element_text(size = 22)
       } else {
         element_blank()
-      }
+      },
+      strip.text = element_text(
+        face = "bold",
+        family = "Sora",
+        size = 16,
+        color = "white",
+        hjust = 0
+      ),
+      strip.background = element_rect(fill = uob_red)
     ) +
     scale_color_manual(
       values = c(

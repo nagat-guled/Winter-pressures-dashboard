@@ -3,19 +3,32 @@ make_girafe <- function(comb_plot, id, list_exposures) {
       shinyjs::hide("model3")
       shinyjs::hide("selected_exposures3")
   }
-  if(length(list_exposures) < 8){
-    min_length <- 8
+  # if(length(list_exposures) < 8){
+  #   min_length <- 2
+  # } else {
+  #   min_length <- length(list_exposures)
+  # }
+
+  floor_height = 1
+
+  facet1_height <- sum(list_exposures %in% practice_characteristics) + floor_height
+  facet2_height <- sum(list_exposures %in% names(case_mix)) + floor_height
+   
+  min_height <- 1
+  strip_height <- 1
+
+  if(id == 3){
+    row_height = 4
   } else {
-    min_length <- length(list_exposures)
+    row_height = 2
   }
+
+  total_height = (max(facet1_height, min_height) + max(facet2_height, min_height)) * row_height + strip_height
+
    girafe(
       ggobj = comb_plot,
       width_svg = 26,
-      height_svg = if (id == 3){
-       min_length * 4
-      } else {
-      min_length * 2
-      },
+      height_svg = total_height,
       options = list(
         opts_sizing(rescale = TRUE, width = 1),
         opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),

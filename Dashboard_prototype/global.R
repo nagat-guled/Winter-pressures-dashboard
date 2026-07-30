@@ -10,6 +10,9 @@ library(stringr)
 library(shinyjs)
 library(ggtext)
 library(gridtext)
+library(ggh4x)
+#install.packages(htmlwidgets, repos = "http://cran.us.r-project.org")
+#library(htmlwidgets)
 
 # load model output file
 df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
@@ -62,9 +65,9 @@ practice_characteristics <- c(
   "South West",
   "West Midlands",
   "Yorkshire and The Humber",
-   "Urban conurbation (ref)",
-    "Urban town",
-   "Rural",
+  "Urban conurbation (ref)",
+  "Urban town",
+  "Rural",
   "list_size",
   "cons_mean"
 )
