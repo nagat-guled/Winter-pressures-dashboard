@@ -33,7 +33,11 @@ plot_graph <- function(outcome_num,
 
     ) %>%
     filter(
-      exposure %in% unlist(exposure_groups[exp_selec], use.names = FALSE) &
+      exposure %in% c(
+     if ("Region" %in% exp_selec) exposure_groups$Region else NULL,
+     if ("Rurality" %in% exp_selec) exposure_groups$Rurality else NULL,
+     unname(exposure_lookup[intersect(exp_selec, names(exposure_lookup))])
+     )  &
         cohort %in% names(time_periods)[match(time_selec, time_periods)]
     ) %>%
     mutate(
@@ -142,8 +146,40 @@ plot_graph <- function(outcome_num,
     need(time_selec != "", "Please select at least one time period")
   )
   # grab axis names in correct order
-  order_exposures <- rev(names(exposure_labels)[
-  names(exposure_labels) %in% unlist(exposure_groups[exp_selec], use.names = FALSE)])
+
+
+  if(any(exposure_groups$Region %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Region", exposure_type = "Practice Characteristics")
+  }
+
+  if(any(exposure_groups$Rurality %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Rurality", exposure_type = "Practice Characteristics")
+  }
+
+  if(any(exposure_groups$Age %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Age", exposure_type = "Patient Case-mix")
+  }
+
+  if(any(exposure_groups$Ethnicity %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Ethnicity", exposure_type = "Patient Case-mix")
+  }
+
+  if(any(exposure_groups$Deprivation %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Deprivation", exposure_type = "Patient Case-mix")
+  }
+
+  if(any(exposure_groups$Smoking_Status %in% df$exposure)) {
+    df <- df %>%
+    add_row(exposure = "Smoking Status", exposure_type = "Patient Case-mix")
+  }
+
+  order_exposures <- rev(names(exposure_labels)[names(exposure_labels) %in% df$exposure])
+
 
   len_pc <- length(order_exposures[order_exposures %in% practice_characteristics])
   len_cm <- length(order_exposures[order_exposures %in% names(case_mix)])
@@ -167,6 +203,21 @@ plot_graph <- function(outcome_num,
   )
 
   rows_order <- c(len_pc, len_cm)
+
+ make_labels <- function(label) {
+  headings <- c("Region", "Rurality", "Age", "Ethnicity", "Deprivation", "Smoking Status")
+  if (label %in% headings) {
+    return(bquote(bold(.(label))))
+  } else {
+    return(stringr::str_wrap(label, width = 25))
+  }
+}
+
+df$exposure <- factor(
+  df$exposure,
+  levels = order_exposures
+)
+
 
  p <- ggplot(
     df,
@@ -208,7 +259,8 @@ plot_graph <- function(outcome_num,
     y = "General Practice Characteristics"
   ) +
   scale_y_discrete( 
-    labels = stringr::str_wrap(exposure_labels[order_exposures], width = 18)
+    breaks = order_exposures,
+    labels = sapply(exposure_labels[order_exposures], make_labels)
   ) +
   xlim(0.6, 1.6) +
   facet_wrap2(
@@ -251,8 +303,7 @@ plot_graph <- function(outcome_num,
       },
       axis.text.y = if ((page_num != 3 && outcome_num %in% c(1, 3, 5, 7))
       || page_num == 3 && outcome_num %in% c(1:4)) {
-        element_text(size = 16, family = "Open Sans",
-        lineheight = 1)
+        ggtext::element_markdown(size = 16, lineheight = 1, hjust = 1)
       } else {
         element_blank()
       },
