@@ -13,7 +13,9 @@ library(gridtext)
 library(ggh4x)
 
 # load model output file
-df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
+#df <- read.csv("..\\Analysis\\Model_output_for_plots\\plot_model_output.csv")
+
+df <- read.csv("..\\Analysis\\Model_output_for_plots\\dummy_model_output.csv")
 
 uob_red <- "#a6192e"
 
@@ -80,26 +82,26 @@ practice_characteristics <- c(
 
 case_mix <- c(
   "Age" = "Age",
-  "age_0_4" = "1.1% in the proportion of patients aged under 5 years",
-  "age_65_74" = "3.4% in the proportion of patients aged 65-74 years",
-  "age_75_79" = "1.7% in the proportion of patients aged 75 to 79 years",
-  "age_80" = "2.2% in the proportion of patients aged over 80 years",
-  "sex_female" = "1.2% in the proportion of female patients",
+  "age_0_4" = " in the proportion of patients aged under 5 years",
+  "age_65_74" = " in the proportion of patients aged 65-74 years",
+  "age_75_79" = " in the proportion of patients aged 75 to 79 years",
+  "age_80" = " in the proportion of patients aged over 80 years",
+  "sex_female" = " in the proportion of female patients",
   "Ethnicity" = "Ethnicity",
-  "ethnicity_white" = "10.9% in the proportion of white patients",
-  "ethnicity_asian" = "3% in the proportion of asian patients",
-  "ethnicity_black" = "1.4% in the proportion of black patients",
-  "ethnicity_mixed" = "1.1% in the proportion of mixed patients",
-  "ethnicity_other" = "1.1% in the proportion of patients of other ethnicities",
+  "ethnicity_white" = " in the proportion of white patients",
+  "ethnicity_asian" = " in the proportion of asian patients",
+  "ethnicity_black" = " in the proportion of black patients",
+  "ethnicity_mixed" = " in the proportion of mixed patients",
+  "ethnicity_other" = " in the proportion of patients of other ethnicities",
   "Deprivation" = "Deprivation",
-  "imd_1_most" = "15.1% in the proporton of most deprived patients",
-  "imd_5_least" = "11.3% in the proportion of least deprived patients",
+  "imd_1_most" = " in the proporton of most deprived patients",
+  "imd_5_least" = " in the proportion of least deprived patients",
   "Smoking Status" = "Smoking Status",
-  "smoking_never" = "5.6% in the proportion of patients who have never smoked",
-  "smoking_ever" = "5% in the proportion of patients who have ever smoked",
-  "smoking_current" = "4% in the proportion of patients who currently smoke",
-  "obesity" = "4.2% in the proportion of obese patients",
-  "carehome" = "0.4% in the proportion of patients who are care home residents"
+  "smoking_never" = " in the proportion of patients who have never smoked",
+  "smoking_ever" = " in the proportion of patients who have ever smoked",
+  "smoking_current" = " in the proportion of patients who currently smoke",
+  "obesity" = " in the proportion of obese patients",
+  "carehome" = " in the proportion of patients who are care home residents"
 )
 
 exposures_input <- list(
@@ -233,25 +235,25 @@ exposures <- list(
 )
 
 outcome_raw <- c(
-  "apc_",
-  "apc_plan_",
-  "apc_unpl_",
-  "apc_acsc_any_",
-  "apc_plan_acsc_any_",
-  "apc_unpl_acsc_any_",
-  "ec_",
-  "ec_acsc_any_"
+  "apc",
+  "apc_plan",
+  "apc_unpl",
+  "apc_acsc_any",
+  "apc_plan_acsc_any",
+  "apc_unpl_acsc_any",
+  "ec",
+  "ec_acsc_any"
 )
 
 outcome_interpretation <- c(
-  "apc_" = "weekly admitted patient care",
-  "apc_plan_" = "weekly planned admitted patient care",
-  "apc_unpl_" = "weekly unplanned admitted patient care",
-  "apc_acsc_any_" = "weekly ACSC-related admitted patient care",
-  "apc_plan_acsc_any_" = "weekly ACSC-related planned admitted patient care",
-  "apc_unpl_acsc_any_" = "weekly ACSC-related unplanned admitted patient care",
-  "ec_" = "weekly A&E attendances",
-  "ec_acsc_any_" = "weekly ACSC-related admitted patient care"
+  "apc" = "weekly admitted patient care",
+  "apc_plan" = "weekly planned admitted patient care",
+  "apc_unpl" = "weekly unplanned admitted patient care",
+  "apc_acsc_any" = "weekly ACSC-related admitted patient care",
+  "apc_plan_acsc_any" = "weekly ACSC-related planned admitted patient care",
+  "apc_unpl_acsc_any" = "weekly ACSC-related unplanned admitted patient care",
+  "ec" = "weekly A&E attendances",
+  "ec_acsc_any" = "weekly ACSC-related admitted patient care"
 )
 
 
@@ -278,7 +280,7 @@ sub_groups <- c(
 models <- c(
   "mdl_crude" = "Crude",
   "mdl_age_sex" = "Age- and sex-adjusted",
-  "mdl_max_adj" = "Fully adjusted"
+  "mdl_mut_adj" = "Fully adjusted"
 )
 
 probdists <- c(

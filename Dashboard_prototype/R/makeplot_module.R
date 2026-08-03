@@ -7,22 +7,29 @@ plot_graph <- function(outcome_num,
   page_num
 ) {
   # filter dataset depending on user input and outcome
+
   df <- df %>%
     filter(
       analysis == names(sub_groups)[sub_groups == sub_selec] &
-        outcome == paste0(outcome_raw[outcome_num],
-          names(sub_groups)[sub_groups == sub_selec]
-        ) &
+        outcome == outcome_raw[outcome_num] &
         model_type == names(probdists)[probdists == prob_selec] &
         model == names(models)[models == model_selec] &
         grepl("^exp_prop(_|$)", term)
-    ) %>%
+    )
+    df <- df %>%
+    { if (page_num != 3) {
     mutate(
+      .,
       exposure = if_else(exposure == "practice_region" |
           exposure == "practice_rurality",
         substring(term, nchar("exp_prop_") + 1),
         exposure
-      ),
+      ) ) } else {
+        mutate(
+          .,
+          exposure = substring(term, nchar("exp_prop_") + 1)
+        ) }} %>%
+      mutate (
       lci = if_else(grepl("ref", term), 1, lci),
       uci = if_else(grepl("ref", term), 1, uci),
 
@@ -55,27 +62,27 @@ plot_graph <- function(outcome_num,
       interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)
        & irr > 1,
       paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
-      "% higher ", outcome_interpretation[str_remove(outcome, analysis)],
+      "% higher ", outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
 
       interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)
        & irr < 1, paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
-      "% lower ", outcome_interpretation[str_remove(outcome, analysis)], 
+      "% lower ", outcome_interpretation[outcome], 
       " ",
       cohort_interp[cohort]),
        interp),
 
       interp = ifelse(exposure == "list_size",
-      paste0(interp, "An increase in 4830 in practice list size was associated with a "),
+      paste0(interp, "An increase in ", mad, " in practice list size was associated with a "),
       interp),
 
       interp = ifelse(exposure == "list_size"
       & irr > 1,
       paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
       " % increase in ",
-      outcome_interpretation[str_remove(outcome, analysis)],
+      outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
@@ -84,20 +91,20 @@ plot_graph <- function(outcome_num,
       & irr < 1,
       paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
       " % decrease in ",
-      outcome_interpretation[str_remove(outcome, analysis)],
+      outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
 
       interp = ifelse(exposure == "cons_mean",
-      paste0(interp, "An increase of 114 per 1000 patients in monthly consultations was associated with a "),
+      paste0(interp, "An increase of ", mad, " per 1000 patients in monthly consultations was associated with a "),
       interp),
 
       interp = ifelse(exposure == "cons_mean"
       & irr > 1,
       paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
       " % increase in ",
-      outcome_interpretation[str_remove(outcome, analysis)],
+      outcome_interpretation[outcome],
       " ", cohort_interp[cohort]),
       interp),
 
@@ -105,20 +112,20 @@ plot_graph <- function(outcome_num,
       & irr < 1,
       paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
       " % decrease in ",
-      outcome_interpretation[str_remove(outcome, analysis)],
+      outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
       
       interp = ifelse(exposure %in% names(case_mix),
-      paste0(interp, "An increase of ", case_mix[exposure],
+      paste0(interp, "An increase of ", mad, case_mix[exposure],
       " in the practice was associated with a "),
       interp),
 
       interp = ifelse(exposure %in% names(case_mix)
       & irr > 1,
       paste0(interp, format(round((irr - 1) * 100, 2), nsmall = 2),
-      "% increase in ", outcome_interpretation[str_remove(outcome, analysis)],
+      "% increase in ", outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
@@ -127,7 +134,7 @@ plot_graph <- function(outcome_num,
       & irr < 1,
       paste0(interp, format(round((1 - irr) * 100, 2), nsmall = 2),
       "% decrease in ",
-      outcome_interpretation[str_remove(outcome, analysis)],
+      outcome_interpretation[outcome],
       " ",
       cohort_interp[cohort]),
       interp),
