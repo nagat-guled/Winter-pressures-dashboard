@@ -44,9 +44,12 @@ ui <- page_navbar(
       column(
         9,
         card(
+          withLoader(
           girafeOutput(
             "plot1",
             width = "100%"
+          ),
+          loader = "loader3"
           )
         ),
       )
@@ -62,9 +65,12 @@ ui <- page_navbar(
       column(
         9,
         card(
+          withLoader(
           girafeOutput(
             "plot2",
             width = "100%"
+          ),
+          loader = "loader3"
           )
         ),
       )
@@ -80,9 +86,12 @@ ui <- page_navbar(
       column(
         9,
         card(
+          withLoader(
           girafeOutput(
             "plot3",
             width = "100%"
+          ),
+          loader = "loader3"
           )
         ),
       )
