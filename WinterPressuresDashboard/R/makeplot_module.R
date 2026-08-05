@@ -8,6 +8,7 @@ plot_graph <- function(outcome_num,
 ) {
   # filter dataset depending on user input and outcome
 
+  exp_selec <- exposure_input_lookup[exp_selec]
   df <- df %>%
     filter(
       analysis == names(sub_groups)[sub_groups == sub_selec] &
@@ -201,7 +202,7 @@ plot_graph <- function(outcome_num,
   if (len_cm == 0) {
     df <- df %>%
     add_row(exposure_type = "Patient Case-mix", exposure = "")
-    facet_labels <- c(facet_labels, "Patient Case-mix" = "Patient Case-mix (none selected)")
+    facet_labels <- c(facet_labels, "Patient Case-mix (percentage of patients in practice)" = "Patient Case-mix (percentage of patients in practice) (none selected)")
   } 
 
   df$exposure_type <- factor(
@@ -289,7 +290,7 @@ df$exposure <- factor(
   theme_minimal() +
     theme(
       plot.title = element_text(
-        size = 25,
+        size = 30,
         family = "Sora",
         hjust = 0,
         colour = uob_red,
@@ -306,11 +307,11 @@ df$exposure <- factor(
       #   element_blank()
       # },
       axis.title.y = element_blank(),
-      axis.title.x = if (page_num != 3 && (outcome_num == 3 || outcome_num == 7)
-      || (page_num == 3 && outcome_num == 4)) {
+      axis.title.x = if (page_num != 3 && (outcome_num %in% c(1, 3, 5, 7))
+      || (page_num == 3 && outcome_num %in% c(1, 2, 3, 4))) {
         element_text(
           size = 25,
-          hjust = 1.2,
+          hjust = 1.25,
           family = "Sora"
         )
       } else {
@@ -333,24 +334,16 @@ df$exposure <- factor(
       panel.grid.major = element_line(colour = "gray85", linewidth = 0.6),
       panel.grid.minor = element_blank(),
       panel.grid.major.x = element_line(colour = "gray96", linewidth = 0.6),
-      legend.position = if ((page_num != 3 && outcome_num != 2 && outcome_num != 6) 
-      || page_num == 3 && outcome_num != 5) {
-        "none"
-      },
-      legend.text = if ((page_num != 3 && outcome_num == 2 || outcome_num == 6)
-      || page_num == 3 && outcome_num == 5) {
-        element_text(size = 22)
-      } else {
-        element_blank()
-      },
+      legend.position = "none",
+      legend.text = element_blank(),
       strip.text = element_text(
         face = "bold",
         family = "Sora",
         size = 16,
-        color = "white",
-        hjust = 0
+        color = "black",
+        hjust = 0.5
       ),
-      strip.background = element_rect(fill = uob_red)
+      strip.background = element_rect(fill = "gray90")
     ) +
     scale_color_manual(
       values = c(

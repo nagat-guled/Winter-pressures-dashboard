@@ -53,7 +53,7 @@
       align-items: center;
       font-family: 'Open Sans';
       margin-top: 25px;
-      font-size: clamp(14px, 0.8vw, 20px) !important;
+      font-size: clamp(12px, 0.8vw, 22px) !important;
      }
 
      .nav-link:hover{
@@ -65,13 +65,13 @@
       font-weight: 600 !important;
      }
 
-     /* stack virtualselectinput above dropdownbutton */
+     .bootstrap-select .dropdown-menu li a span.text {
+      word-wrap: break-word !important;
+      max-width: 16ch !important;
+    }
 
-     .vscomp-dropbox-container {
-      z-index: 10000 !important;
-     }
+     
 
-     .dropdown-menu {
-      z-index: 9999 !important;
-     }
+
+    
 

@@ -113,27 +113,51 @@ exposures_input <- list(
     "Region",
     "Rurality",
     "Practice list size",
-    "Monthly consultation rate (per 1000 patients)"
+    "Monthly consultation rate"
   ),
   "Patient case-mix" = c(
     "Age: Under 5 years",
     "Age: 65-74 years",
     "Age: 75-79 years",
     "Age: 80-110 years",
-    "Sex: Female",
-    "Ethnicity: Mixed",
-    "Ethnicity: Black",
+    "Female",
     "Ethnicity: White",
     "Ethnicity: Asian",
+    "Ethnicity: Black",
+    "Ethnicity: Mixed",
     "Ethnicity: Other",
-    "Deprivation: IMD 5 (least deprived)",
-    "Deprivation: IMD 1 (most deprived)",
-    "Smoking Status: Current smoker",
-    "Smoking Status: Ever smoker",
-    "Smoking Status: Never smoker",
+    "IMD 1 (most deprived)",
+    "IMD 5 (least deprived)",
+    "Never smoker",
+    "Ever smoker",
+    "Current smoker",
     "Obesity",
     "Care home residence"
   )
+)
+
+exposure_input_lookup <- c(
+  "Region" = "Region",
+  "Rurality" = "Rurality",
+  "Practice list size" = "Practice list size",
+  "Monthly consultation rate" = "Monthly consultation rate (per 1000 patients)",
+  "Age: Under 5 years" = "Age: Under 5 years",
+  "Age: 65-74 years" = "Age: 65-74 years",
+  "Age: 75-79 years" = "Age: 75-79 years",
+  "Age: 80-110 years" = "Age: 80-110 years",
+  "Female" = "Sex: Female",
+   "Ethnicity: Mixed" = "Ethnicity: Mixed",
+    "Ethnicity: Black" = "Ethnicity: Black",
+    "Ethnicity: White" = "Ethnicity: White",
+    "Ethnicity: Asian" = "Ethnicity: Asian",
+    "Ethnicity: Other" = "Ethnicity: Other",
+    "IMD 5 (least deprived)" = "Deprivation: IMD 5 (least deprived)",
+    "IMD 1 (most deprived)" = "Deprivation: IMD 1 (most deprived)",
+    "Current smoker" = "Smoking Status: Current smoker",
+    "Ever smoker" = "Smoking Status: Ever smoker",
+    "Never smoker" = "Smoking Status: Never smoker",
+    "Obesity" = "Obesity",
+    "Care home residence" = "Care home residence"
 )
 
 exposure_lookup <- c(

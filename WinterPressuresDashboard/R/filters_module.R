@@ -1,24 +1,28 @@
 # create panel containing widgets for user selection
 filters <- function(id) {
   card(
-    virtualSelectInput(
+    class = "filters-card",
+    pickerInput(
       paste0("selected_exposures", id),
       "Select exposures:",
       choices = exposures_input,
       selected = if (id == 3) {
         unlist(exposures_input, use.names = FALSE)
       } else {
-        exposures_input[["Patient case-mix"]]
+        c("Practice list size",
+    "Monthly consultation rate",
+    "Female", "Obesity")
       },
       multiple = TRUE,
-      search = TRUE,
-      dropboxWrapper = "body"
+      width = "90%",
+      options = list(size = 12, `tick-icon` = "")
     ),
     selectInput(
       paste0("subgroup", id),
       "Select population sub-group:",
       choices = unname(sub_groups),
-      selected = sub_groups[[1]]
+      selected = sub_groups[[1]],
+      width = "90%"
     ),
     selectInput(
       paste0("model", id),
@@ -38,7 +42,8 @@ filters <- function(id) {
         models[[2]]
       } else {
         models[[3]]
-      }
+      },
+      width = "90%"
     ),
     tags$div(
       style = "display: flex;",
@@ -50,7 +55,8 @@ filters <- function(id) {
           outline = TRUE,
           plain = TRUE,
           status = 'primary',
-          icon = icon("check")
+          icon = icon("check"),
+          width = "100%"
         )
       ),
     ),
@@ -59,8 +65,9 @@ filters <- function(id) {
       "Select time periods:",
       choices = unname(time_periods),
       selected = unname(time_periods[c(1, 4)]),
-      size = "sm"
+      size = "sm",
+      width = "90%"
     ),
-    fill = TRUE,
+    height = "520px"
   )
 }
