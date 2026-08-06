@@ -17,8 +17,16 @@ server <- function(id, input, output) {
       order_exposures <- p1$order_exposures
     }
     # design plot layout for all 8 outcomes
-    combined_plot1 <- (plots[[1]] | plots[[2]]) /
-      (plots[[3]] | plots[[4]])
+   
+
+    row1 <- (plots[[1]] | plot_spacer() | plots[[2]]) +
+    plot_layout(widths = c(4, 0.4, 4))
+
+    row3 <- (plots[[3]] | plot_spacer() | plots[[4]]) +
+    plot_layout(widths = c(4, 0.4, 4))
+
+    combined_plot1 <- row1 / plot_spacer() / row3 +
+    plot_layout(heights = unit(c(1, 2, 1), c("null", "cm", "null")))
 
     make_girafe(combined_plot1, 1, order_exposures)
 
@@ -41,8 +49,14 @@ server <- function(id, input, output) {
       order_exposures <- p2$order_exposures
     }
     # design plot layout for all 8 outcomes
-    combined_plot2 <- (plots2[[5]] | plots2[[6]]) /
-      (plots2[[7]] | plots2[[8]])
+  row1 <- (plots2[[5]] | plot_spacer() | plots2[[6]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  row3 <- (plots2[[7]] | plot_spacer() | plots2[[8]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  combined_plot2 <- row1 / plot_spacer() / row3 +
+  plot_layout(heights = unit(c(1, 2, 1), c("null", "cm", "null")))
 
     make_girafe(combined_plot2, 2, order_exposures)
   })
@@ -53,8 +67,8 @@ server <- function(id, input, output) {
       p3 <- plot_graph(
         x,
         input$subgroup3,
-        input$selected_exposures3,
-        input$model3,
+        unlist(exposures_input),
+        models[3],
         input$probdist3,
         input$time3,
         3
@@ -67,6 +81,25 @@ server <- function(id, input, output) {
     combined_plot3 <- (plots3[[1]] | plots3[[5]]) /
       (plots3[[2]] | plots3[[6]]) / (plots3[[3]] | plots3[[7]]) /
       (plots3[[4]] | plots3[[8]])
+
+
+        row1 <- (plots3[[1]] | plot_spacer() | plots3[[5]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  row3 <- (plots3[[2]] | plot_spacer() | plots3[[6]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  row5 <- (plots3[[3]] | plot_spacer() | plots3[[7]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  row7 <- (plots3[[4]] | plot_spacer() | plots3[[8]]) +
+  plot_layout(widths = c(4, 0.4, 4))
+
+  combined_plot3 <- row1 / plot_spacer() /
+  row3 / plot_spacer() /
+  row5 / plot_spacer() / row7 +
+  plot_layout(heights = unit(c(1, 2, 1, 2, 1, 2, 1),
+                              c("null", "cm", "null", "cm", "null", "cm", "null")))
       
     make_girafe(combined_plot3, 3, order_exposures)
   })

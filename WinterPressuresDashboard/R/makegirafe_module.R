@@ -1,14 +1,4 @@
 make_girafe <- function(comb_plot, id, list_exposures) {
-  if (id == 3) {
-      shinyjs::hide("model3")
-      shinyjs::hide("selected_exposures3")
-  }
-  # if(length(list_exposures) < 8){
-  #   min_length <- 2
-  # } else {
-  #   min_length <- length(list_exposures)
-  # }
-
   floor_height = 1
 
   facet1_height <- sum(list_exposures %in% practice_characteristics) + floor_height

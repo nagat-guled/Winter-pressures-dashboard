@@ -12,7 +12,7 @@ library(ggtext)
 library(gridtext)
 library(ggh4x)
 library(rsconnect)
-library(shinycustomloader)
+library(shinycssloaders)
 
 # current url:  https://h4e5yf-nagat0guled.shinyapps.io/winterpressuresdashboard/
 

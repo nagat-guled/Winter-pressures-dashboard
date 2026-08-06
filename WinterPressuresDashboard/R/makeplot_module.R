@@ -194,6 +194,7 @@ plot_graph <- function(outcome_num,
 
   rows_order <- c()
   facet_labels <- c()
+  facet_labels <- c("Patient Case-mix" = "Patient Case-mix (percentage of patients in practice)")
   if (len_pc == 0) {
     df <- df %>%
     add_row(exposure_type = "Practice Characteristics", exposure = "")
@@ -202,7 +203,7 @@ plot_graph <- function(outcome_num,
   if (len_cm == 0) {
     df <- df %>%
     add_row(exposure_type = "Patient Case-mix", exposure = "")
-    facet_labels <- c(facet_labels, "Patient Case-mix (percentage of patients in practice)" = "Patient Case-mix (percentage of patients in practice) (none selected)")
+    facet_labels["Patient Case-mix"] <- "Patient Case-mix (percentage of patients in practice) (none selected)"
   } 
 
   df$exposure_type <- factor(
@@ -290,9 +291,10 @@ df$exposure <- factor(
   theme_minimal() +
     theme(
       plot.title = element_text(
-        size = 30,
+        size = 28,
         family = "Sora",
         hjust = 0,
+        vjust = 2,
         colour = uob_red,
         face = "bold"
       ),
@@ -311,7 +313,7 @@ df$exposure <- factor(
       || (page_num == 3 && outcome_num %in% c(1, 2, 3, 4))) {
         element_text(
           size = 25,
-          hjust = 1.25,
+          hjust = 1.4,
           family = "Sora"
         )
       } else {

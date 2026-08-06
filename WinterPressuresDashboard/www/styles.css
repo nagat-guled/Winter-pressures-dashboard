@@ -69,8 +69,74 @@
       word-wrap: break-word !important;
       max-width: 16ch !important;
     }
+    .bootstrap-select .dropdown-menu.inner li.selected a {
+      background-color: var(--UOB_red) !important;   
+      color: #fff !important;
+     }
 
-     
+  label[for="time11"],
+  label[for="time21"],
+  label[for="time31"] {
+    background-color: #fff !important;
+    border-color: #ff7f50 !important;
+    color: #ff7f50 !important;
+  }
+
+  input#time11:checked + label[for="time11"],
+  input#time21:checked + label[for="time21"],
+  input#time31:checked + label[for="time31"] {
+    background-color: #ff7f50 !important;
+    border-color: #ff7f50 !important;
+    color: #fff !important;
+  }
+
+  label[for="time12"],
+  label[for="time22"],
+  label[for="time32"] {
+    background-color: #fff !important;
+    border-color: #8fbc8f !important;
+    color: #8fbc8f !important;
+  }
+
+  input#time12:checked + label[for="time12"],
+  input#time22:checked + label[for="time22"],
+  input#time32:checked + label[for="time32"] {
+    background-color: #8fbc8f !important;
+    border-color: #8fbc8f !important;
+    color: #fff !important;
+  }
+
+  label[for="time13"],
+  label[for="time23"],
+  label[for="time33"] {
+    background-color: #fff !important;
+    border-color: #da70d6 !important;
+    color: #da70d6 !important;
+  }
+
+  input#time13:checked + label[for="time13"],
+  input#time23:checked + label[for="time23"],
+  input#time33:checked + label[for="time33"]{
+    background-color: #da70d6 !important;
+    border-color: #da70d6 !important;
+    color: #fff !important;
+  }
+
+  label[for="time14"],
+  label[for="time24"],
+  label[for="time34"] {
+    background-color: #fff !important;
+    border-color: #00bfff !important;
+    color: #00bfff !important;
+  }
+
+  input#time14:checked + label[for="time14"],
+  input#time24:checked + label[for="time24"],
+  input#time34:checked + label[for="time34"]{
+    background-color: #00bfff !important;
+    border-color: #00bfff !important;
+    color: #fff !important;
+  }
 
 
     

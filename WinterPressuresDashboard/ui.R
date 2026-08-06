@@ -44,12 +44,11 @@ ui <- page_navbar(
       column(
         9,
         card(
-          withLoader(
+          withSpinner(
           girafeOutput(
             "plot1",
             width = "100%"
-          ),
-          loader = "loader3"
+          )
           )
         ),
       )
@@ -65,12 +64,11 @@ ui <- page_navbar(
       column(
         9,
         card(
-          withLoader(
+          withSpinner(
           girafeOutput(
             "plot2",
             width = "100%"
-          ),
-          loader = "loader3"
+          )
           )
         ),
       )
@@ -86,37 +84,47 @@ ui <- page_navbar(
       column(
         9,
         card(
-          withLoader(
+          withSpinner(
           girafeOutput(
             "plot3",
             width = "100%"
-          ),
-          loader = "loader3"
+          )
           )
         ),
       )
     )
   ),
-  # tags$footer(
-  #   tags$div(
-  #     class = "footer-link",
-  #     tags$img(src = "favicon.png", alt = "UOB logo"),
-  #     tags$img(src = "hdr-uk-logo.jpg", alt = "HDR UK logo")
-  #   )
-  # ),
-  # tags$style(HTML("
-  # .footer-link {
-  #     padding: 8px !important;
-  #     background-color: var(--UOB_red) !important;
-  #     text-align: center;
-  #     font-family: 'Sora';
-  #     font-weight: 600;
-  #     font-size: 28;
-  #     color: white;
-  #    }
-  # .footer-link img {
-  #   height: 50px;
-  #   width: auto;
-  #   }
-  #    ")),
+  tags$footer(
+    tags$div(
+      class = "footer-link",
+      tags$a(
+      href = "https://www.bristol.ac.uk/population-health-sciences/centres/ehr/",
+      title = "UOB Electronic Health Records Group",
+      target = "_blank",
+      tags$img(src = "favicon.png", alt = "UOB logo")
+      ),
+      tags$a(
+      href = "https://www.hdruk.ac.uk/",
+      title = "Health Data Research UK",
+      target = "_blank",
+      tags$img(src = "hdr-uk-logo.jpg", alt = "HDR UK logo")
+      )
+    )
+  ),
+  tags$style(HTML("
+  .footer-link {
+      padding: 8px !important;
+      background-color: #610512 !important;
+      border-color: var(--UOB_red) !important;
+      text-align: center;
+      font-family: 'Sora';
+      font-weight: 600;
+      font-size: 28;
+      color: white;
+     }
+  .footer-link img {
+    height: 50px;
+    width: auto;
+    }
+     ")),
 )

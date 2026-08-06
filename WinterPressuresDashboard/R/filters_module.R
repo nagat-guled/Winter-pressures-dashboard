@@ -2,21 +2,19 @@
 filters <- function(id) {
   card(
     class = "filters-card",
+    if (id != 3){
     pickerInput(
       paste0("selected_exposures", id),
       "Select exposures:",
       choices = exposures_input,
-      selected = if (id == 3) {
-        unlist(exposures_input, use.names = FALSE)
-      } else {
-        c("Practice list size",
+      selected = c("Practice list size",
     "Monthly consultation rate",
-    "Female", "Obesity")
-      },
+    "Female", "Obesity"),
       multiple = TRUE,
       width = "90%",
-      options = list(size = 12, `tick-icon` = "")
-    ),
+      options = list(size = 10, `tick-icon` = "", `actions-box` = TRUE)
+    )
+    },
     selectInput(
       paste0("subgroup", id),
       "Select population sub-group:",
@@ -24,6 +22,7 @@ filters <- function(id) {
       selected = sub_groups[[1]],
       width = "90%"
     ),
+    if (id != 3){
     selectInput(
       paste0("model", id),
       label = tagList("Select adjustment model:",
@@ -33,18 +32,11 @@ filters <- function(id) {
           placement = "right"
         )
       ),
-      choices = if(id != 3) {
-        unname(models[1:2])
-      } else{
-        unname(models)
-      },
-      selected = if(id != 3) {
-        models[[2]]
-      } else {
-        models[[3]]
-      },
+      choices = unname(models[1:2]),
+      selected = models[[2]],
       width = "90%"
-    ),
+    )
+    },
     tags$div(
       style = "display: flex;",
       tags$div(
@@ -68,6 +60,10 @@ filters <- function(id) {
       size = "sm",
       width = "90%"
     ),
-    height = "520px"
+    height = ifelse(
+      id == 3,
+      "350px",
+      "520px"
+    )
   )
 }
