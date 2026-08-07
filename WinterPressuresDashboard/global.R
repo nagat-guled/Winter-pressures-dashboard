@@ -274,26 +274,26 @@ outcome_raw <- c(
 )
 
 outcome_interpretation <- c(
-  "apc" = "weekly admitted patient care",
-  "apc_plan" = "weekly planned admitted patient care",
-  "apc_unpl" = "weekly unplanned admitted patient care",
-  "apc_acsc_any" = "weekly ACSC-related admitted patient care",
-  "apc_plan_acsc_any" = "weekly ACSC-related planned admitted patient care",
-  "apc_unpl_acsc_any" = "weekly ACSC-related unplanned admitted patient care",
+  "apc" = "weekly hospital admissions",
+  "apc_plan" = "weekly planned hospital admissions",
+  "apc_unpl" = "weekly unplanned hospital admissions",
+  "apc_acsc_any" = "weekly ACSC-related hospital admissions",
+  "apc_plan_acsc_any" = "weekly ACSC-related planned hospital admissions",
+  "apc_unpl_acsc_any" = "weekly ACSC-related unplanned hospital admissions",
   "ec" = "weekly A&E attendances",
-  "ec_acsc_any" = "weekly ACSC-related admitted patient care"
+  "ec_acsc_any" = "weekly ACSC-related A&E attendances"
 )
 
 
 outcome_titles <- c(
   "Weekly hospital admissions",
-  "Weekly A&E attendances",
   "Weekly planned hospital admissions",
   "Weekly unplanned hospital admissions",
   "Weekly ACSC-related hospital admissions",
-  "Weekly ACSC-related A&E attendences",
   "Weekly ACSC-related planned hospital admissions",
-  "Weekly ACSC-related unplanned hospital admissions"
+  "Weekly ACSC-related unplanned hospital admissions",
+  "Weekly A&E attendances",
+  "Weekly ACSC-related A&E attendences"
 )
 
 sub_groups <- c(

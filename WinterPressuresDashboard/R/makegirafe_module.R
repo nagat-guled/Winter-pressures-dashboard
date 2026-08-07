@@ -32,7 +32,8 @@ make_girafe <- function(comb_plot, id, list_exposures) {
           padding: 4px;
           border: 1px solid #A6192E;
           border-radius: 6px;
-          box-shadow: 0 2px 8px #0000001f"
+          box-shadow: 0 2px 8px #0000001f;
+          max-width: 200px",
         ),
         opts_zoom(min = 1, max = 5),
         opts_toolbar(

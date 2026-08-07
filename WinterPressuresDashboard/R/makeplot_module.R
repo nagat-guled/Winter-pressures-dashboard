@@ -140,7 +140,7 @@ plot_graph <- function(outcome_num,
       cohort_interp[cohort]),
       interp),
 
-      interp = str_wrap(interp, width = 40),
+      #interp = str_wrap(interp, width = 38),
 
       interp = ifelse(exposure == "East (ref)"
       | exposure == "Urban conurbation (ref)",
@@ -309,8 +309,8 @@ df$exposure <- factor(
       #   element_blank()
       # },
       axis.title.y = element_blank(),
-      axis.title.x = if (page_num != 3 && (outcome_num %in% c(1, 3, 5, 7))
-      || (page_num == 3 && outcome_num %in% c(1, 2, 3, 4))) {
+      axis.title.x = if (page_num != 3 && (outcome_num %in% c(1, 2, 4, 5))
+      || (page_num == 3 && outcome_num %in% c(1, 2, 3, 7))) {
         element_text(
           size = 25,
           hjust = 1.4,
@@ -319,8 +319,8 @@ df$exposure <- factor(
       } else {
         element_blank()
       },
-      axis.text.y = if ((page_num != 3 && outcome_num %in% c(1, 3, 5, 7))
-      || page_num == 3 && outcome_num %in% c(1:4)) {
+      axis.text.y = if ((page_num != 3 && outcome_num %in% c(1, 2, 4, 5))
+      || page_num == 3 && outcome_num %in% c(1, 2, 3, 7)) {
         ggtext::element_markdown(size = 16, lineheight = 1, hjust = 1)
       } else {
         element_blank()
