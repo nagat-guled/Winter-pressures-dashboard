@@ -31,7 +31,7 @@ ui <- page_navbar(
   nav_panel(
     "About",
     card(
-
+      make_about()
     )
   ),
   nav_panel(

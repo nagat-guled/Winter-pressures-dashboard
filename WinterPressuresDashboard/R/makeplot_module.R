@@ -53,11 +53,11 @@ plot_graph <- function(outcome_num,
       interp = paste0("<b>Interpretation</b>: "),
 
       interp = ifelse(exposure %in% exposure_groups$Region,
-      paste0(interp, "Compared with practices in the East region, practices in the ", exposure, " region had a "),
+      paste0(interp, "Compared with practices in the East region, practices in the ", exposure, " region had "),
       interp),
 
       interp = ifelse(exposure %in% exposure_groups$Rurality,
-      paste0(interp, "Compared with practices in urban conurbations, practices in ", str_to_lower(exposure), " areas had a "),
+      paste0(interp, "Compared with practices in urban conurbations, practices in ", str_to_lower(exposure), " areas had "),
       interp),
       
       interp = ifelse((exposure %in% exposure_groups$Region | exposure %in% exposure_groups$Rurality)

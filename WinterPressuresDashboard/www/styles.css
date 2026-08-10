@@ -74,6 +74,10 @@
       color: #fff !important;
      }
 
+     .filters-card {
+      font-size: clamp(10px, 1vw, 18px) !important;
+     }
+
   label[for="time11"],
   label[for="time21"],
   label[for="time31"] {
@@ -138,6 +142,27 @@
     color: #fff !important;
   }
 
+
+  /* About page styling */
+
+  .projecttitle {
+    font-size: 26px;
+    font-family: 'Open Sans';
+  }
+
+  .projectoverview, .useoverview, .studyoverview {
+    font-family: 'Sora';
+  }
+
+  .dashtitle, .usetitle, .studytitle {
+    font-family: 'Open Sans';
+    font-size: 20px;
+    color:#c76642;
+  }
+
+  .dashoverview {
+    font-family: 'Sora';
+  }
 
     
 

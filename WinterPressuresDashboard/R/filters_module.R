@@ -5,13 +5,13 @@ filters <- function(id) {
     if (id != 3){
     pickerInput(
       paste0("selected_exposures", id),
-      "Select exposures:",
+      "Select practice-level characteristics:",
       choices = exposures_input,
       selected = c("Practice list size",
     "Monthly consultation rate",
     "Female", "Obesity"),
       multiple = TRUE,
-      width = "90%",
+      width = "95%",
       options = list(size = 10, `tick-icon` = "", `actions-box` = TRUE)
     )
     },
