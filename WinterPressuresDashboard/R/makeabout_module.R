@@ -6,6 +6,24 @@ make_about <- function() {
         The relationship between general practice characteristics, case-mix, and secondary care attendances/admissions before and after the COVID-19 pandemic: an OpenSAFELY cohort study
         </div>
 
+        <div class="studybox">
+
+         <div class="studyoverview">
+       <b>Study protocol</b>: Zou M, Dawadi S, Pettigrew LM, et al. The relationship between general practice characteristics, case-mix, and secondary care attendances/admissions before and after the COVID-19 pandemic: Protocol for an OpenSAFELY cohort study. Wellcome Open Research 2025, 10:396. <a href="https://doi.org/10.12688/wellcomeopenres.24356.1" target="_blank"> doi.org/10.12688/wellcomeopenres.24356.1 </a>
+        <div style="margin-top: 1em;"></div>
+       <b>Study leads</b>: Zoe Mengxuan Zou, Rachel Denholm; University of Bristol 
+       <div style="margin-top: 1em;"></div>
+       <b>Contributors</b>: Shrinkhala Dawadi, Ruth E Costello, Luisa M Pettigrew, Rosalind M Eggo, Emily Herrett, Venexia Walker, Marwa Al Arab, Michael Marks, Jonathan Sterne, Alex Walker, Jaidip Gill, John Macleod, Johnny Filipe, Heather Mah, Sebastian Bacon, Matt Curtis, Amir Mehrkar, Laurie Tomlinson, Ben Goldacre, Rohini Mathur, Edwin van Leeuwen 
+       <div style="margin-top: 1em;"></div>
+       <b>Dashboard author</b>: Nagat Guled <br>
+       <b>Dashboard reviewers</b>: Zoe Mengxuan Zou, Marwa Al Arab 
+       </div>
+       </div>
+
+       <div class="studytitle">
+       Study background
+       </div>
+
         <div class="projectoverview">
         In England, winter places substantial pressure on NHS general practice and hospital services, partly driven by seasonal infectious disease outbreaks.
         Understanding how differences between general practices and their patient populations are associated with hospital use may help support NHS service planning at both practice and system level. 
@@ -18,6 +36,16 @@ make_about <- function() {
 
         <b><li> Patient case-mix: </b> the proportion of registered patients within different age, sex, ethnicity, deprivation, smoking, obesity and care-home residence groups. </li>
         </ul>
+        </div>
+
+        <div class="opensafelytitle">
+        What is OpenSAFELY?
+        </div>
+
+        <div class="opensafelyoverview">
+        <a href= https://www.opensafely.org/" target="_blank"> OpenSAFELY </a> is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research.
+        The OpenSAFELY-TPP dataset was used to access <b> linked EHR data, covering approximately 2,600 general practices </b>(about 40% of all practices in England) and 26 million registered patients in England.
+        This study focuses on weekly and aggregated rates of hospital use during flu and winter months (October to February).
         </div>
 
         <div class="dashtitle">
@@ -58,20 +86,6 @@ make_about <- function() {
        For categorical characteristics, the IRR represents the relative difference compared with the reference category. <b> Hover over an IRR point to see its detailed interpretation. </b>
        </div>
 
-       <div class="studytitle">
-       Study information 
-       </div>
-
-       <div class="studyoverview">
-       <b>Study protocol</b>: Zou M, Dawadi S, Pettigrew LM, et al. The relationship between general practice characteristics, case-mix, and secondary care attendances/admissions before and after the COVID-19 pandemic: Protocol for an OpenSAFELY cohort study. Wellcome Open Research 2025, 10:396. <a href="https://doi.org/10.12688/wellcomeopenres.24356.1" target="_blank"> doi.org/10.12688/wellcomeopenres.24356.1 </a>
-        <div style="margin-top: 1em;"></div>
-       <b>Study leads</b>: Zoe Mengxuan Zou, Rachel Denholm; University of Bristol 
-       <div style="margin-top: 1em;"></div>
-       <b>Contributors</b>: Shrinkhala Dawadi, Ruth E Costello, Luisa M Pettigrew, Rosalind M Eggo, Emily Herrett, Venexia Walker, Marwa Al Arab, Michael Marks, Jonathan Sterne, Alex Walker, Jaidip Gill, John Macleod, Johnny Filipe, Heather Mah, Sebastian Bacon, Matt Curtis, Amir Mehrkar, Laurie Tomlinson, Ben Goldacre, Rohini Mathur, Edwin van Leeuwen 
-       <div style="margin-top: 1em;"></div>
-       <b>Dashboard author</b>: Nagat Guled <br>
-       <b>Dashboard reviewers</b>: Zoe Mengxuan Zou, Marwa Al Arab 
-       </div>
        ')
     )
 }

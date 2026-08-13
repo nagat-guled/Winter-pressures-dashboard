@@ -150,18 +150,20 @@
     font-family: 'Open Sans';
   }
 
-  .projectoverview, .useoverview, .studyoverview {
+  .projectoverview, .useoverview, .studyoverview, .dashoverview, .opensafelyoverview {
     font-family: 'Sora';
   }
 
-  .dashtitle, .usetitle, .studytitle {
+  .dashtitle, .usetitle, .studytitle, .opensafelytitle {
     font-family: 'Open Sans';
     font-size: 20px;
     color:#c76642;
   }
 
-  .dashoverview {
-    font-family: 'Sora';
+  .studybox {
+    border-radius: 25px;
+    padding: 20px;
+    background-color: #f0b099;
   }
 
     
