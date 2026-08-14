@@ -213,23 +213,6 @@ plot_graph <- function(outcome_num,
 
   rows_order <- c(len_pc, len_cm)
 
- make_labels <- function(label) {
-  headings <- c("Region", "Rurality", "Age", "Ethnicity", "Deprivation", "Smoking Status",
-   "Practice list size")
-  pct_headings <- c("Sex: Female", "Obesity", "Care home residence")
-   
-  if (label %in% headings) {
-      return(bquote(bold(.(label))))
-    }
-  if (label %in% pct_headings) {
-    return(bquote(bold(.(label)) ~ "(%)"))
-  }
-  if (label == "Monthly consultation rate (per 1000 patients)") {
-    return(bquote(atop(bold("Monthly consultation rate"), "(per 1000 patients)")))
-  }
-  return(label)
-}
-
 df$exposure <- factor(
   df$exposure,
   levels = order_exposures
@@ -298,16 +281,6 @@ df$exposure <- factor(
         colour = uob_red,
         face = "bold"
       ),
-      # axis.title.y = if ((page_num != 3 && (outcome_num == 3 || outcome_num == 7))
-      # || page_num == 3 && outcome_num == 3) {
-      #   element_text(
-      #     size = 25,
-      #     family = "Sora",
-      #     hjust = 1.2
-      #   )
-      # } else {
-      #   element_blank()
-      # },
       axis.title.y = element_blank(),
       axis.title.x = if (page_num != 3 && (outcome_num %in% c(1, 2, 4, 5))
       || (page_num == 3 && outcome_num %in% c(1, 2, 3, 7))) {
