@@ -13,9 +13,9 @@ Winter places significant pressure on primary and secondary care in the UK. ​G
 **Dashboard author**: Nagat Guled 
 **Dashboard reviewers**: Zoe Mengxuan Zou, Marwa Al Arab 
 
-OpenSAFELY is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research. The OpenSAFELY-TPP dataset was used to access linked EHR data, covering approximately 2,600 general practices (about 40% of all practices in England) and 26 million registered patients in England. 
+[OpenSAFELY](https://www.opensafely.org/) is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research. The OpenSAFELY-TPP dataset was used to access linked EHR data, covering approximately 2,600 general practices (about 40% of all practices in England) and 26 million registered patients in England. 
 
-The purpose of the dashboard is to communicate the results of this study to clinicians and other stakeholders. The results form a large dataset containing eight outcomes, 31 practice-level chanracteristics and multiple model types. Therefore, an interactive dashboard is essential in allowing users to visualise the findings that are useful to them and easily interpret figures.
+The purpose of the dashboard is to communicate the results of this study to clinicians and other stakeholders. The results form a large dataset containing eight outcomes, 31 practice-level characteristics and multiple model types. An interactive dashboard is essential in allowing users to visualise the findings that are useful to them and easily interpret figures.
 
 ## Dashboard code structure
 
@@ -23,9 +23,9 @@ The purpose of the dashboard is to communicate the results of this study to clin
 
 ## How to use the code
 
-To get started with Shiny the ![Mastering Shiny](https://mastering-shiny.org/) book and the ![Shiny for R Gallery](https://shiny.posit.co/r/gallery/) are great resources.
+The [Mastering Shiny](https://mastering-shiny.org/) book and the [Shiny for R Gallery](https://shiny.posit.co/r/gallery/) are great resources for getting started with Shiny.
 
-**global.R**: This is the main file of the code and should be kept short. Use this file to load in your dataset and initilise any variables. Replace labels.R with the variables in your own dataset mapped to your desired label names for the plots.
+**global.R**: This is the main file of the code and should be kept short. Use this file to load in your dataset and initialise any variables. Replace labels.R with the variables in your own dataset mapped to your desired label names for the plots.
 
 **ui.R**: This file defines the layout of the app. Load your own stylesheet, and replace the title of the app and tab names. 
 
@@ -33,7 +33,7 @@ To get started with Shiny the ![Mastering Shiny](https://mastering-shiny.org/) b
 
 **filters_module.R**: This is called in maketab_module.R. It renders the filter panel on each page. Replace input titles and use your lists in labels.R as choices.
 
-**makefooter_module.R**: This file is called in ui.R and renders a footer with text and a scrolling logos animation. Change acknowledgement text to describe your own project. Create a **logo.R** file with a list of your own logos and reuse **makelogos_module.R** to render them.
+**makefooter_module.R**: This file is called in ui.R and renders a footer with text and a scrolling logos animation. Change acknowledgement text to describe your own project. Update **logo.R** with a list of your own logos and reuse **makelogos_module.R** to render them.
 
 **server.R**: This is the third of the three main files. In general, this file processes input from ui.R and generates output. In the case of this dashboard it uses the patchwork library to define the plot layout.
 
