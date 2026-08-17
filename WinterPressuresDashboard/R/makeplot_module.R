@@ -17,35 +17,35 @@ plot_graph <- function(outcome_num,
         model == names(models)[models == model_selec] &
         grepl("^exp_prop(_|$)", term)
     )
-    df <- df %>%
+  df <- df %>%
     { if (page_num != 3) {
-    mutate(
-      .,
-      exposure = if_else(exposure == "practice_region" |
+        mutate(
+          .,
+          exposure = if_else(exposure == "practice_region" |
           exposure == "practice_rurality",
-        substring(term, nchar("exp_prop_") + 1),
-        exposure
-      ) ) } else {
+          substring(term, nchar("exp_prop_") + 1),
+          exposure
+          ) ) } else {
         mutate(
           .,
           exposure = substring(term, nchar("exp_prop_") + 1)
         ) }} %>%
-      mutate (
-      lci = if_else(grepl("ref", term), 1, lci),
-      uci = if_else(grepl("ref", term), 1, uci),
+        mutate (
+          lci = if_else(grepl("ref", term), 1, lci),
+          uci = if_else(grepl("ref", term), 1, uci),
 
-      exposure_type = ifelse(exposure %in% practice_characteristics,
-        "Practice Characteristics",
-        "Patient Case-mix"
-      )
+         exposure_type = ifelse(exposure %in% practice_characteristics,
+         "Practice Characteristics",
+         "Patient Case-mix"
+        )
 
     ) %>%
     filter(
-      exposure %in% c(
-     if ("Region" %in% exp_selec) exposure_groups$Region else NULL,
-     if ("Rurality" %in% exp_selec) exposure_groups$Rurality else NULL,
-     unname(exposure_lookup[intersect(exp_selec, names(exposure_lookup))])
-     )  &
+       exposure %in% c(
+       if ("Region" %in% exp_selec) exposure_groups$Region else NULL,
+       if ("Rurality" %in% exp_selec) exposure_groups$Rurality else NULL,
+       unname(exposure_lookup[intersect(exp_selec, names(exposure_lookup))])
+      )  &
         cohort %in% names(time_periods)[match(time_selec, time_periods)]
     ) %>%
     mutate(
@@ -140,8 +140,6 @@ plot_graph <- function(outcome_num,
       cohort_interp[cohort]),
       interp),
 
-      #interp = str_wrap(interp, width = 38),
-
       interp = ifelse(exposure == "East (ref)"
       | exposure == "Urban conurbation (ref)",
       paste0(""),
@@ -156,34 +154,34 @@ plot_graph <- function(outcome_num,
   # grab axis names in correct order
 
 
-  if(any(exposure_groups$Region %in% df$exposure)) {
+  if (any(exposure_groups$Region %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Region", exposure_type = "Practice Characteristics")
+      add_row(exposure = "Region", exposure_type = "Practice Characteristics")
   }
 
-  if(any(exposure_groups$Rurality %in% df$exposure)) {
+  if (any(exposure_groups$Rurality %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Rurality", exposure_type = "Practice Characteristics")
+      add_row(exposure = "Rurality", exposure_type = "Practice Characteristics")
   }
 
-  if(any(exposure_groups$Age %in% df$exposure)) {
+  if (any(exposure_groups$Age %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Age", exposure_type = "Patient Case-mix")
+      add_row(exposure = "Age", exposure_type = "Patient Case-mix")
   }
 
-  if(any(exposure_groups$Ethnicity %in% df$exposure)) {
+  if (any(exposure_groups$Ethnicity %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Ethnicity", exposure_type = "Patient Case-mix")
+      add_row(exposure = "Ethnicity", exposure_type = "Patient Case-mix")
   }
 
-  if(any(exposure_groups$Deprivation %in% df$exposure)) {
+  if (any(exposure_groups$Deprivation %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Deprivation", exposure_type = "Patient Case-mix")
+      add_row(exposure = "Deprivation", exposure_type = "Patient Case-mix")
   }
 
-  if(any(exposure_groups$Smoking_Status %in% df$exposure)) {
+  if (any(exposure_groups$Smoking_Status %in% df$exposure)) {
     df <- df %>%
-    add_row(exposure = "Smoking Status", exposure_type = "Patient Case-mix")
+      add_row(exposure = "Smoking Status", exposure_type = "Patient Case-mix")
   }
 
   order_exposures <- rev(names(exposure_labels)[names(exposure_labels) %in% df$exposure])
@@ -197,13 +195,13 @@ plot_graph <- function(outcome_num,
   facet_labels <- c("Patient Case-mix" = "Patient Case-mix (percentage of patients in practice)")
   if (len_pc == 0) {
     df <- df %>%
-    add_row(exposure_type = "Practice Characteristics", exposure = "")
-    facet_labels <- c("Practice Characteristics" = "Practice Characteristics (none selected)")
-  } 
+      add_row(exposure_type = "Practice Characteristics", exposure = "")
+      facet_labels <- c("Practice Characteristics" = "Practice Characteristics (none selected)")
+  }
   if (len_cm == 0) {
     df <- df %>%
-    add_row(exposure_type = "Patient Case-mix", exposure = "")
-    facet_labels["Patient Case-mix"] <- "Patient Case-mix (percentage of patients in practice) (none selected)"
+      add_row(exposure_type = "Patient Case-mix", exposure = "")
+      facet_labels["Patient Case-mix"] <- "Patient Case-mix (percentage of patients in practice) (none selected)"
   } 
 
   df$exposure_type <- factor(
@@ -213,13 +211,13 @@ plot_graph <- function(outcome_num,
 
   rows_order <- c(len_pc, len_cm)
 
-df$exposure <- factor(
-  df$exposure,
-  levels = order_exposures
-)
+  df$exposure <- factor(
+    df$exposure,
+    levels = order_exposures
+  )
 
 
- p <- ggplot(
+  p <- ggplot(
     df,
     aes(
       x = irr,
@@ -231,47 +229,47 @@ df$exposure <- factor(
       data_id = paste(cohort, exposure, sep = "_")
     )
   ) +
-  geom_point_interactive(
-    size = 4,
-    position = position_dodge(width = 0.8)
-  ) +
-  geom_errorbar(
-    aes(
-      xmax = uci,
-      xmin = lci,
-      alpha = 0.7
-    ),
-    linewidth = 1,
-    width = 0.01,
-    orientation = "y",
-    position = position_dodge(width = 0.8),
-    show.legend = FALSE
+    geom_point_interactive(
+      size = 4,
+      position = position_dodge(width = 0.8)
     ) +
-  geom_vline(
-    xintercept = 1.0,
-    linetype = "dotted",
-    color = "#b42323",
-    linewidth = 1.3
-  ) +
-  labs(
-    title = outcome_titles[outcome_num],
-    x = "Incidence Rate Ratio (IRR)",
-    y = "General Practice Characteristics"
-  ) +
-  scale_y_discrete( 
-    breaks = order_exposures,
-    labels = sapply(exposure_labels[order_exposures], make_labels)
-  ) +
-  xlim(0.6, 1.6) +
-  facet_wrap2(
-    exposure_type ~ .,
-    ncol = 1,
-    scales = "free_y",
-    strip.position = "top",
-    labeller = labeller(exposure_type = facet_labels)
-  ) +
-  force_panelsizes(rows = rows_order) +
-  theme_minimal() +
+    geom_errorbar(
+      aes(
+        xmax = uci,
+        xmin = lci,
+        alpha = 0.7
+      ),
+      linewidth = 1,
+      width = 0.01,
+      orientation = "y",
+      position = position_dodge(width = 0.8),
+      show.legend = FALSE
+    ) +
+    geom_vline(
+      xintercept = 1.0,
+      linetype = "dotted",
+      color = "#b42323",
+      linewidth = 1.3
+    ) +
+    labs(
+      title = outcome_titles[outcome_num],
+      x = "Incidence Rate Ratio (IRR)",
+      y = "General Practice Characteristics"
+    ) +
+    scale_y_discrete( 
+      breaks = order_exposures,
+      labels = sapply(exposure_labels[order_exposures], make_labels)
+    ) +
+    xlim(0.6, 1.6) +
+    facet_wrap2(
+      exposure_type ~ .,
+      ncol = 1,
+      scales = "free_y",
+      strip.position = "top",
+      labeller = labeller(exposure_type = facet_labels)
+    ) +
+    force_panelsizes(rows = rows_order) +
+    theme_minimal() +
     theme(
       plot.title = element_text(
         size = 28,
@@ -322,12 +320,13 @@ df$exposure <- factor(
     ) +
     scale_color_manual(
       values = c(
-      "precovid" = "coral",
-      "postcovid1" = "darkseagreen",
-      "postcovid2" = "orchid",
-      "postcovid3" = "deepskyblue"),
+        "precovid" = "coral",
+        "postcovid1" = "darkseagreen",
+        "postcovid2" = "orchid",
+        "postcovid3" = "deepskyblue"
+      ),
       breaks = c("precovid", "postcovid1", "postcovid2", "postcovid3"),
       labels = unname(time_periods)
     )
-    list(plot = p, order_exposures = order_exposures)
+  list(plot = p, order_exposures = order_exposures)
 }

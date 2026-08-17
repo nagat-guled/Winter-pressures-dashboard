@@ -3,17 +3,18 @@ filters <- function(id) {
   card(
     class = "filters-card",
     if (id != 3){
-    pickerInput(
-      paste0("selected_exposures", id),
-      "Select practice-level characteristics:",
-      choices = exposures_input,
-      selected = c("Practice list size",
-    "Monthly consultation rate",
-    "Female", "Obesity"),
-      multiple = TRUE,
-      width = "95%",
-      options = list(size = 10, `tick-icon` = "", `actions-box` = TRUE)
-    )
+      pickerInput(
+        paste0("selected_exposures", id),
+        "Select practice-level characteristics:",
+        choices = exposures_input,
+        selected = c("Practice list size",
+          "Monthly consultation rate",
+          "Female", "Obesity"
+        ),
+        multiple = TRUE,
+        width = "95%",
+        options = list(size = 10, `tick-icon` = "", `actions-box` = TRUE)
+      )
     },
     selectInput(
       paste0("subgroup", id),
@@ -23,19 +24,19 @@ filters <- function(id) {
       width = "90%"
     ),
     if (id != 3){
-    selectInput(
-      paste0("model", id),
-      label = tagList("Select adjustment model:",
-        tooltip(
-          icon("circle-info", style = "color: #a6192e"),
-          "Choose between no adjustment and age- and sex-adjusted.",
-          placement = "right"
-        )
-      ),
-      choices = unname(models[1:2]),
-      selected = models[[2]],
-      width = "90%"
-    )
+      selectInput(
+        paste0("model", id),
+        label = tagList("Select adjustment model:",
+          tooltip(
+            icon("circle-info", style = "color: #a6192e"),
+            "Choose between no adjustment and age- and sex-adjusted.",
+            placement = "right"
+          )
+        ),
+        choices = unname(models[1:2]),
+        selected = models[[2]],
+        width = "90%"
+      )
     },
     tags$div(
       style = "display: flex;",
