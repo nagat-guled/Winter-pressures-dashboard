@@ -1,4 +1,4 @@
-server <- function(id, input, output) {
+server <- function(input, output) {
 
   output$plot1 <- renderGirafe({
     plots <- list()

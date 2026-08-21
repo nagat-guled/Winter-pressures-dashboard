@@ -43,7 +43,7 @@ tagList(
         </div>
 
         <div class="opensafelyoverview">
-        <a href= https://www.opensafely.org/" target="_blank"> OpenSAFELY </a> is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research.
+        <a href= "https://www.opensafely.org/" target="_blank"> OpenSAFELY </a> is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research.
         The OpenSAFELY-TPP dataset was used to access <b> linked EHR data, covering approximately 2,600 general practices </b>(about 40% of all practices in England) and 26 million registered patients in England.
         This study focuses on weekly and aggregated rates of hospital use during flu and winter months (October to February).
         </div>

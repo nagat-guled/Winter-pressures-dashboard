@@ -21,7 +21,7 @@ make_girafe <- function(comb_plot, id, list_exposures) {
     height_svg = total_height,
     options = list(
       opts_sizing(rescale = TRUE, width = 1),
-      opts_hover(css = "cursor:pointer; stroke-width:3; size = 5;"),
+      opts_hover(css = "cursor:pointer; stroke-width:3px;"),
       opts_hover_inv(css = "opacity: 0.7;"),
       opts_tooltip(
         opacity = 0.9,
@@ -33,7 +33,7 @@ make_girafe <- function(comb_plot, id, list_exposures) {
         border: 1px solid #A6192E;
         border-radius: 6px;
         box-shadow: 0 2px 8px #0000001f;
-        max-width: 200px",
+        max-width: 200px"
       ),
       opts_zoom(min = 1, max = 5),
       opts_toolbar(

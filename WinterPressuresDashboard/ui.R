@@ -31,7 +31,7 @@ ui <- page_navbar(
     )
   ),
   make_tab("All-cause hospital use", 1, "plot1"),
-  make_tab("ASCS-related hospital use", 2, "plot2"),
+  make_tab("ACSC-related hospital use", 2, "plot2"),
   make_tab("Hospital use estimator", 3, "plot3"),
   footer = make_footer()
 )
