@@ -11,6 +11,7 @@ Winter places significant pressure on primary and secondary care in the UK. ​G
 **Contributors**: Shrinkhala Dawadi, Ruth E Costello, Luisa M Pettigrew, Rosalind M Eggo, Emily Herrett, Venexia Walker, Marwa Al Arab, Michael Marks, Jonathan Sterne, Alex Walker, Jaidip Gill, John Macleod, Johnny Filipe, Heather Mah, Sebastian Bacon, Matt Curtis, Amir Mehrkar, Laurie Tomlinson, Ben Goldacre, Rohini Mathur, Edwin van Leeuwen 
 
 **Dashboard author**: Nagat Guled 
+
 **Dashboard reviewers**: Zoe Mengxuan Zou, Marwa Al Arab 
 
 [OpenSAFELY](https://www.opensafely.org/) is a secure, open-source software platform that supports the reproducibility of electronic health record (EHR) research. The OpenSAFELY-TPP dataset was used to access linked EHR data, covering approximately 2,600 general practices (about 40% of all practices in England) and 26 million registered patients in England. 
